@@ -1,0 +1,269 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base
+  title="FG Kick"
+  kicker="Daily Game"
+  heading="Field Goal Kick"
+  description="Line up the direction meter, load the power meter, and split the uprights. Every make moves you back 10 yards."
+>
+  <section class="container section--tight k-wrap" data-kick>
+    <p class="lede">
+      Two meters. First lock the <strong>aim</strong>, then the <strong>power</strong> — but power
+      only tops out at <strong>5 yards past</strong> the current kick, so you can't just crank it.
+      Start at the 20. Every make, you back up 10.
+    </p>
+
+    <div class="k-hud">
+      <div><span class="k-hud__k">Kick</span><span class="k-hud__v" data-distance>37 yd</span></div>
+      <div><span class="k-hud__k">Made</span><span class="k-hud__v" data-made>0</span></div>
+      <div><span class="k-hud__k">Streak</span><span class="k-hud__v" data-streak>0</span></div>
+      <div><span class="k-hud__k">Best</span><span class="k-hud__v" data-best>0</span></div>
+    </div>
+
+    <div class="k-stage panel">
+      <svg class="k-field" viewBox="0 0 320 220" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <rect x="0" y="0" width="320" height="220" fill="#1f8a4c" />
+        <g stroke="#8fdcae" stroke-width="1.4" opacity="0.5">
+          <line x1="14" y1="60" x2="306" y2="60" /><line x1="14" y1="95" x2="306" y2="95" />
+          <line x1="14" y1="130" x2="306" y2="130" /><line x1="14" y1="165" x2="306" y2="165" />
+          <line x1="14" y1="200" x2="306" y2="200" />
+        </g>
+        <line x1="14" y1="34" x2="306" y2="34" stroke="#f4ecd6" stroke-width="3" />
+        {/* goalposts */}
+        <g stroke="#f4c948" stroke-width="6" stroke-linecap="square" fill="none">
+          <line x1="128" y1="34" x2="128" y2="8" />
+          <line x1="192" y1="34" x2="192" y2="8" />
+          <line x1="124" y1="34" x2="196" y2="34" />
+          <line x1="160" y1="34" x2="160" y2="46" />
+        </g>
+        <circle class="k-ball" data-ball cx="160" cy="196" r="7" fill="#7a3b12" stroke="#05130b" stroke-width="2" />
+      </svg>
+      <p class="k-call" data-call hidden></p>
+    </div>
+
+    <div class="k-meters">
+      <div class="k-meter" data-meter="dir">
+        <span class="k-meter__label">Aim</span>
+        <div class="k-track">
+          <span class="k-track__center"></span>
+          <span class="k-track__mark" data-dirmark></span>
+          <span class="k-track__lock" data-dirlock hidden></span>
+        </div>
+      </div>
+      <div class="k-meter is-idle" data-meter="pow">
+        <span class="k-meter__label">Power <small data-powmax></small></span>
+        <div class="k-track k-track--pow">
+          <span class="k-track__fill" data-powfill></span>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn k-go" data-go>Set Aim</button>
+    <p class="k-hint readout" data-hint>Tap the button (or press Space) to lock the aim.</p>
+
+    <div class="k-over" data-over hidden>
+      <p class="k-over__headline">No good.</p>
+      <p class="k-over__line readout" data-over-line></p>
+      <button class="btn k-again" data-again>Kick again</button>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const root = document.querySelector('[data-kick]');
+  const $ = (s) => root.querySelector(s);
+  const SNAP = 17;                 // endzone + snap distance added to the yard line
+  let yardLine = 20;
+  let made = 0, streak = 0, longest = 0;
+  let phase = 'ready';             // ready | aiming | powering | kicking | over
+  let timer = 0, t0 = 0;
+  let dir = 0, pow = 0;            // locked values (dir: -1..1, pow: 0..1)
+  root._dir = 0; root._pow = 0;
+
+  function best() { try { return +localStorage.getItem('kick:best') || 0; } catch { return 0; } }
+  function setBest(v) { try { localStorage.setItem('kick:best', String(v)); } catch {} }
+
+  const distance = () => yardLine + SNAP;
+  // the power meter sweeps a 10-yard window centred on the kick: lock it in the
+  // top half. Max reads as "5 yards past the current kick".
+  const powMaxYards = () => distance() + 5;
+  const powMinYards = () => distance() - 5;
+  const powYardsFor = (p) => powMinYards() + p * (powMaxYards() - powMinYards());
+  // how far off-center (|dir|, 0..1) you can be and still split the uprights
+  const goalWindow = () => Math.max(0.12, 0.62 - (distance() - 37) * 0.014);
+  // both meters sweep faster the farther back you're kicking
+  const sweepSpeed = () => 3.6 + (distance() - 37) * 0.04;
+
+  function updateHud() {
+    $('[data-distance]').textContent = `${distance()} yd`;
+    $('[data-made]').textContent = made;
+    $('[data-streak]').textContent = streak;
+    $('[data-best]').textContent = best();
+    $('[data-powmax]').textContent = `max ${powMaxYards()} yd`;
+  }
+
+  function tickMeter() {
+    const el = (performance.now() - t0) / 1000;
+    const spd = sweepSpeed();
+    if (phase === 'aiming') {
+      const v = Math.sin(el * spd);                 // -1..1 sweep
+      $('[data-dirmark]').style.left = `${50 + v * 48}%`;
+      root._dir = v;
+    } else if (phase === 'powering') {
+      const v = (Math.sin(el * spd - Math.PI / 2) + 1) / 2; // 0..1 sweep, starts at 0
+      $('[data-powfill]').style.width = `${v * 100}%`;
+      root._pow = v;
+    }
+  }
+  function startLoop() { clearInterval(timer); t0 = performance.now(); timer = setInterval(tickMeter, 16); }
+
+  function setPhase(p) {
+    phase = p;
+    const go = $('[data-go]'), hint = $('[data-hint]');
+    $('[data-meter="pow"]').classList.toggle('is-idle', p !== 'powering' && p !== 'kicking');
+    if (p === 'ready') { go.textContent = 'Set Aim'; hint.textContent = 'Tap the button (or press Space) to lock the aim.'; }
+    if (p === 'aiming') { go.textContent = 'Lock Aim'; hint.textContent = 'Stop it in the middle.'; startLoop(); }
+    if (p === 'powering') { go.textContent = 'Kick'; hint.textContent = `Load it up — under half power comes up short. Max ${powMaxYards()} yd.`; startLoop(); }
+    if (p === 'kicking') { go.textContent = '…'; hint.textContent = ''; }
+  }
+
+  function press() {
+    if (phase === 'ready') { setPhase('aiming'); return; }
+    if (phase === 'aiming') {
+      dir = root._dir || 0;
+      clearInterval(timer);
+      const lock = $('[data-dirlock]');
+      lock.hidden = false; lock.style.left = `${50 + dir * 48}%`;
+      setPhase('powering');
+      return;
+    }
+    if (phase === 'powering') {
+      pow = root._pow || 0;
+      clearInterval(timer);
+      setPhase('kicking');
+      kick();
+    }
+  }
+
+  function kick() {
+    const powYards = powYardsFor(pow);
+    const short = powYards < distance();
+    const offCenter = Math.abs(dir);
+    const wide = offCenter > goalWindow();
+    const good = !short && !wide;
+
+    // animate the ball (SVG user units: ball starts at 160,196; posts at x 128/192, y~34)
+    const ball = $('[data-ball]');
+    const flightFrac = Math.min(1.05, powYards / distance());
+    const dy = short ? -(196 - 60) * flightFrac : -184;        // short kicks fall on the field
+    // drift is tied to the same goal window the hit-test uses: |dir| at the window
+    // edge lands the ball on the post, so the visual always matches the call
+    const POST_HALF = 30;
+    let dx = dir * (POST_HALF / goalWindow());
+    dx = Math.max(-142, Math.min(142, dx));
+    if (short) dx *= 0.65;
+    ball.style.transition = 'transform 0.9s cubic-bezier(.35,-0.35,.5,1)';
+    ball.style.transform = `translate(${dx}px, ${dy}px) scale(${short ? 1 : 0.55})`;
+
+    setTimeout(() => {
+      const call = $('[data-call]');
+      call.hidden = false;
+      call.textContent = good ? "IT'S GOOD!" : short ? 'SHORT.' : dir < 0 ? 'WIDE LEFT.' : 'WIDE RIGHT.';
+      call.className = `k-call ${good ? 'is-good' : 'is-bad'}`;
+
+      if (good) {
+        made++; streak++;
+        longest = Math.max(longest, distance());
+        setTimeout(() => { yardLine += 10; nextKick(); }, 950);
+      } else {
+        streak = 0;
+        if (longest > best()) setBest(longest);
+        setTimeout(gameOver, 950);
+      }
+      updateHud();
+    }, 850);
+  }
+
+  function nextKick() {
+    const ball = $('[data-ball]');
+    ball.style.transition = 'none';
+    ball.style.transform = 'none';
+    $('[data-call]').hidden = true;
+    $('[data-dirlock]').hidden = true;
+    $('[data-powfill]').style.width = '0%';
+    updateHud();
+    setPhase('ready');
+  }
+
+  function gameOver() {
+    setPhase('over');
+    $('[data-over]').hidden = false;
+    $('[data-go]').hidden = true;
+    $('[data-hint]').hidden = true;
+    $('[data-over-line]').textContent =
+      `${made} made · longest ${longest || '—'} yd · best ever ${best()} yd`;
+  }
+
+  function reset() {
+    yardLine = 20; made = 0; streak = 0; longest = 0;
+    $('[data-over]').hidden = true;
+    $('[data-go]').hidden = false;
+    $('[data-hint]').hidden = false;
+    nextKick();
+  }
+
+  $('[data-go]').addEventListener('click', press);
+  $('[data-again]').addEventListener('click', reset);
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && phase !== 'over') { e.preventDefault(); press(); }
+  });
+  updateHud();
+  setPhase('ready');
+</script>
+
+<style>
+  .k-wrap { max-width: 520px; }
+  .lede { color: var(--chalk-dim); margin-bottom: 1.25rem; }
+  .lede strong { color: var(--penalty-flag); }
+
+  .k-hud { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.4rem; margin-bottom: 1rem; }
+  .k-hud > div {
+    display: flex; flex-direction: column; align-items: center; gap: 0.1rem;
+    background: var(--turf-line); border: 2px solid var(--pixel-ink); padding: 0.5rem 0.3rem;
+  }
+  .k-hud__k { font-size: 0.56rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--chalk-faint); }
+  .k-hud__v { font-family: var(--font-sans); font-weight: 900; font-size: 1.1rem; color: var(--chalk); font-variant-numeric: tabular-nums; }
+
+  .k-stage { position: relative; padding: 0; overflow: hidden; max-width: 420px; }
+  .k-field { display: block; width: 100%; height: auto; }
+  .k-ball { will-change: transform; transform-box: fill-box; transform-origin: center; }
+  .k-call {
+    position: absolute; inset: auto 0 1rem 0; text-align: center;
+    font-family: var(--font-display); font-weight: 900; font-size: 1.6rem; text-transform: uppercase;
+    text-shadow: 3px 3px 0 var(--pixel-ink); letter-spacing: 0.02em;
+  }
+  .k-call.is-good { color: #4dffb0; }
+  .k-call.is-bad { color: #ff5a4d; }
+
+  .k-meters { display: grid; gap: 0.75rem; margin: 1rem 0; }
+  .k-meter { display: grid; grid-template-columns: 4.5rem 1fr; gap: 0.6rem; align-items: center; }
+  .k-meter.is-idle { opacity: 0.4; }
+  .k-meter__label { font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--chalk-dim); }
+  .k-meter__label small { display: block; font-weight: 600; font-size: 0.62rem; color: var(--chalk-faint); }
+  .k-track {
+    position: relative; height: 1.5rem; background: var(--turf-line-2);
+    border: 2px solid var(--pixel-ink); overflow: hidden;
+  }
+  .k-track__center { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--first-down); }
+  .k-track__mark { position: absolute; top: 0; bottom: 0; width: 4px; background: var(--penalty-flag); transform: translateX(-50%); }
+  .k-track__lock { position: absolute; top: 0; bottom: 0; width: 4px; background: var(--sky-pick); transform: translateX(-50%); }
+  .k-track__fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: var(--penalty-flag); }
+
+  .k-go { width: 100%; justify-content: center; font-size: 0.95rem; padding: 0.9rem; }
+  .k-hint { margin-top: 0.6rem; text-align: center; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--chalk-faint); }
+
+  .k-over { margin-top: 1.25rem; padding: 1.25rem; text-align: center; background: var(--turf-line); border: var(--border-nes); box-shadow: var(--shadow-nes); }
+  .k-over__headline { font-family: var(--font-display); font-weight: 900; font-size: 1.5rem; text-transform: uppercase; color: var(--blitz-red); }
+  .k-over__line { margin: 0.5rem 0 1rem; color: var(--chalk-dim); }
+</style>

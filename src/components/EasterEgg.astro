@@ -1,0 +1,157 @@
+---
+/**
+ * Hidden dickbutt. Struts across the screen when you find him. Three ways in:
+ *   1. the Konami code  (↑ ↑ ↓ ↓ ← → ← → B A)
+ *   2. tap the "Armchair Quarterbacks" text in the footer 5x fast
+ *   3. click the tip poking up from the very bottom of the page
+ * State is remembered, but he still comes when called — and he's got opinions.
+ */
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<div class="egg" data-egg>
+  <div class="egg__run" data-egg-run hidden>
+    <img class="egg__img" src={`${base}/egg/dickbutt.svg`} alt="" width="128" height="155" />
+    <span class="egg__bubble" data-egg-bubble></span>
+  </div>
+  <button class="egg__peek" data-egg-peek type="button" aria-label="?" tabindex="-1">
+    <img src={`${base}/egg/dickbutt.svg`} alt="" width="64" height="78" />
+  </button>
+</div>
+
+<script>
+  const root = document.querySelector('[data-egg]');
+  if (root) {
+    const runEl = root.querySelector('[data-egg-run]');
+    const bubbleEl = root.querySelector('[data-egg-bubble]');
+    const peekEl = root.querySelector('[data-egg-peek]');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const LINES = [
+      'your lineup is a war crime',
+      'you drafted a kicker in the 6th',
+      'autodraft would do better',
+      'nice punt, coward',
+      'benched your best player again',
+      'you start guys on bye',
+      'skill issue',
+      'L + ratio + you lost in week 1',
+      'waiver wire is not a personality',
+      'imagine losing to Team 9',
+      'cope harder',
+      'third place is just first loser',
+      'you are the JJ McCarthy of drafting',
+      'more like Fudge-Packer',
+      'your team is the 2008 Lions',
+      'you would draft Caleb Williams',
+    ];
+    let busy = false;
+
+    function reveal() {
+      if (busy) return;
+      busy = true;
+      try { localStorage.setItem('aq-egg-found', '1'); } catch {}
+      runEl.hidden = false;
+      // restart the animation
+      runEl.classList.remove('is-go');
+      void runEl.offsetWidth;
+      runEl.classList.add('is-go');
+      bubbleEl.textContent = LINES[Math.floor(Math.random() * LINES.length)];
+      const total = reduce ? 900 : 4600;
+      setTimeout(() => { runEl.hidden = true; runEl.classList.remove('is-go'); busy = false; }, total);
+    }
+
+    /* 1 — Konami */
+    const CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let pos = 0;
+    addEventListener('keydown', (e) => {
+      const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      pos = k === CODE[pos] ? pos + 1 : (k === CODE[0] ? 1 : 0);
+      if (pos === CODE.length) { pos = 0; reveal(); }
+    });
+
+    /* 2 — footer wordmark, 5 quick taps */
+    const name = document.querySelector('.foot__name');
+    if (name) {
+      let n = 0, t = 0;
+      name.style.cursor = 'default';
+      name.addEventListener('click', () => {
+        const now = Date.now();
+        n = now - t < 600 ? n + 1 : 1;
+        t = now;
+        if (n >= 4) name.animate(
+          [{ transform: 'translateX(-2px)' }, { transform: 'translateX(2px)' }, { transform: 'translateX(0)' }],
+          { duration: 160 },
+        );
+        if (n >= 5) { n = 0; reveal(); }
+      });
+    }
+
+    /* 3 — the peeker */
+    peekEl.addEventListener('click', () => {
+      reveal();
+      peekEl.classList.add('is-gone');
+      try { sessionStorage.setItem('aq-egg-peek', 'gone'); } catch {}
+    });
+    try { if (sessionStorage.getItem('aq-egg-peek') === 'gone') peekEl.classList.add('is-gone'); } catch {}
+  }
+</script>
+
+<style>
+  .egg { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
+
+  .egg__run {
+    position: absolute; bottom: 8vh; left: 0;
+    width: 120px; will-change: transform;
+  }
+  .egg__run.is-go { animation: egg-run 4.6s cubic-bezier(0.4, 0, 0.5, 1) forwards; }
+  .egg__img { width: 100%; height: auto; display: block; filter: drop-shadow(3px 4px 0 rgba(0, 0, 0, 0.25)); }
+  .egg__run.is-go .egg__img { animation: egg-bob 0.34s steps(2) infinite; }
+
+  .egg__bubble {
+    position: absolute; left: 100%; bottom: 60%; margin-left: 8px;
+    white-space: nowrap; opacity: 0;
+    font-family: var(--font-sans); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--pixel-ink);
+    background: var(--cream); border: 2px solid var(--pixel-ink);
+    box-shadow: 3px 3px 0 var(--pixel-ink); padding: 0.35rem 0.6rem;
+  }
+  .egg__run.is-go .egg__bubble { animation: egg-say 4.6s linear forwards; }
+
+  @keyframes egg-run {
+    0%   { transform: translate(-40vw, 0) rotate(-6deg); }
+    22%  { transform: translate(24vw, -6vh) rotate(8deg); }
+    40%  { transform: translate(44vw, 3vh) rotate(-6deg); }
+    50%  { transform: translate(48vw, -3vh) rotate(4deg) scale(1.12); }
+    60%  { transform: translate(48vw, -3vh) rotate(-4deg) scale(1.12); }
+    78%  { transform: translate(78vw, 4vh) rotate(9deg); }
+    100% { transform: translate(140vw, -4vh) rotate(-12deg); }
+  }
+  @keyframes egg-bob { 50% { transform: translateY(-6px) rotate(3deg); } }
+  @keyframes egg-say {
+    0%, 40% { opacity: 0; transform: translateY(6px); }
+    48%, 62% { opacity: 1; transform: none; }
+    70%, 100% { opacity: 0; }
+  }
+
+  /* the peeker — just his eyes above the bottom edge */
+  .egg__peek {
+    position: fixed; left: 50%; bottom: 0;
+    width: 52px; height: 15px; overflow: hidden;
+    transform: translate(-50%, 1px);
+    background: none; border: 0; padding: 0; cursor: pointer;
+    pointer-events: auto; opacity: 0.4;
+    transition: opacity 0.2s, height 0.2s;
+  }
+  .egg__peek img { width: 52px; height: auto; display: block; }
+  .egg__peek:hover { opacity: 0.85; height: 22px; }
+  .egg__peek.is-gone { display: none; }
+
+  @media (max-width: 1040px) {
+    /* clear of the mobile tab bar */
+    .egg__peek { bottom: 4.9rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .egg__run.is-go { animation: none; transform: translate(46vw, -3vh); }
+    .egg__run.is-go .egg__img, .egg__run.is-go .egg__bubble { animation: none; }
+    .egg__run.is-go .egg__bubble { opacity: 1; }
+  }
+</style>

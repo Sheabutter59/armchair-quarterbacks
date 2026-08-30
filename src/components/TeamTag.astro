@@ -1,0 +1,59 @@
+---
+import { ME_TEAM_ID } from '../lib/site.js';
+interface Props {
+  team: any;
+  size?: 'sm' | 'md' | 'lg';
+  showOwner?: boolean;
+  link?: boolean;
+}
+const { team, size = 'md', showOwner = false, link = true } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const me = team && team.id === ME_TEAM_ID;
+const Tag = link ? 'a' : 'div';
+const href = link && team ? `${base}/teams#team-${team.id}` : undefined;
+---
+{team && (
+  <Tag class:list={['tt', `tt--${size}`, { 'tt--me': me }]} href={href}>
+    <span class="tt__crest" aria-hidden="true">
+      {team.logo
+        ? <img src={team.logo} alt="" width="40" height="40" loading="lazy" />
+        : <span class="tt__initials">{team.initials || (team.abbrev || team.name || '?').slice(0, 3)}</span>}
+    </span>
+    <span class="tt__body">
+      <span class="tt__name">{team.name}</span>
+      {showOwner && <span class="tt__owner">{team.owner}</span>}
+    </span>
+  </Tag>
+)}
+<style>
+  .tt { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--chalk); }
+  .tt:hover { text-decoration: none; }
+  .tt:hover .tt__name { color: var(--penalty-flag); }
+  .tt__crest {
+    flex-shrink: 0; display: grid; place-items: center;
+    background: var(--turf-line-2); border: 2px solid var(--pixel-ink);
+    overflow: hidden;
+  }
+  .tt__crest img { width: 100%; height: 100%; object-fit: cover; }
+  .tt__initials {
+    font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.02em;
+    color: var(--penalty-flag); line-height: 1;
+  }
+  .tt__body { display: flex; flex-direction: column; min-width: 0; }
+  .tt__name { font-weight: 600; letter-spacing: -0.01em; }
+  .tt__owner {
+    font-family: var(--font-mono); font-size: 0.68rem; color: var(--chalk-dim);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .tt--me .tt__name::after {
+    content: ' ★'; color: var(--sky-pick); font-size: 0.8em;
+  }
+  .tt--sm .tt__crest { width: 26px; height: 26px; }
+  .tt--sm .tt__initials { font-size: 0.6rem; }
+  .tt--sm .tt__name { font-size: 0.85rem; }
+  .tt--md .tt__crest { width: 36px; height: 36px; }
+  .tt--md .tt__initials { font-size: 0.72rem; }
+  .tt--lg .tt__crest { width: 52px; height: 52px; }
+  .tt--lg .tt__initials { font-size: 0.95rem; }
+  .tt--lg .tt__name { font-size: 1.1rem; }
+</style>

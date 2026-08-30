@@ -1,0 +1,169 @@
+---
+import { SECTIONS, PRIMARY, TABS } from '../data/nav.js';
+import info from '../data/league-info.json';
+import Monogram from './Monogram.astro';
+import Icon from './Icon.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const here = Astro.url.pathname.replace(base, '').replace(/^\/|\/$/g, '');
+const link = (href) => `${base}/${href}`.replace(/\/$/, '') || `${base}/`;
+const isActive = (href) => here === href;
+
+const tabItems = TABS.map((h) => SECTIONS.find((s) => s.href === h)).filter(Boolean);
+---
+
+<header class="nav">
+  <div class="nav__bar">
+    <a class="nav__brand" href={link('')} aria-label="Armchair Quarterbacks — home">
+      <span class="nav__mono"><Monogram tile={true} /></span>
+      <span class="nav__brandtext pixel"><span>Armchair</span><span>Quarterbacks</span></span>
+    </a>
+
+    <nav class="nav__primary" aria-label="Primary">
+      {PRIMARY.map((s) => (
+        <a href={link(s.href)} class:list={['nav__link', { 'is-active': isActive(s.href) }]}>{s.label}</a>
+      ))}
+      <button class="nav__link nav__menu" data-menu-open aria-haspopup="dialog">Menu ▾</button>
+    </nav>
+
+    <a class="nav__espn" href={info.espnLeagueUrl} rel="noopener" target="_blank">
+      <span class="nav__espn-full">Set Lineup</span><span class="nav__espn-short">ESPN</span> ↗
+    </a>
+  </div>
+</header>
+
+<nav class="tabbar" aria-label="Quick navigation">
+  {tabItems.map((s) => (
+    <a href={link(s.href)} class:list={['tabbar__item', { 'is-active': isActive(s.href) }]}>
+      <Icon name={s.icon} size={20} /><span>{s.short}</span>
+    </a>
+  ))}
+  <button class="tabbar__item" data-menu-open><Icon name="list" size={20} /><span>Menu</span></button>
+</nav>
+
+<div class="sheet" data-menu hidden>
+  <div class="sheet__panel panel">
+    <div class="strip sheet__strip">
+      <span aria-hidden="true">▚</span><span>Full Menu</span>
+      <button class="sheet__close" data-menu-close aria-label="Close menu">✕</button>
+    </div>
+    <div class="sheet__grid">
+      {SECTIONS.map((s) => (
+        <a href={link(s.href)} class:list={['sheet__link', { 'is-active': isActive(s.href) }]}>
+          <Icon name={s.icon} size={18} />{s.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  const sheet = document.querySelector('[data-menu]');
+  const setSheet = (open) => {
+    if (!sheet) return;
+    sheet.hidden = !open;
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) sheet.querySelector('a')?.focus();
+  };
+  document.querySelectorAll('[data-menu-open]').forEach((b) => b.addEventListener('click', () => setSheet(true)));
+  document.querySelectorAll('[data-menu-close]').forEach((b) => b.addEventListener('click', () => setSheet(false)));
+  sheet?.addEventListener('click', (e) => { if (e.target === sheet) setSheet(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setSheet(false); });
+</script>
+
+<style>
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--end-zone);
+    border-bottom: var(--border-nes);
+  }
+  .nav__bar {
+    display: flex; align-items: center; gap: clamp(1rem, 2vw, 2.25rem);
+    padding-block: 0.55rem; padding-inline: clamp(1rem, 3.5vw, 3rem);
+    width: 100%; max-width: 1760px; margin-inline: auto;
+    flex-wrap: nowrap; justify-content: space-between;
+  }
+
+  .nav__brand { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+  .nav__brand:hover { text-decoration: none; }
+  .nav__mono { display: block; width: 38px; height: 38px; flex-shrink: 0; }
+  .nav__brandtext {
+    display: flex; flex-direction: column; gap: 0.34rem;
+    font-size: 0.64rem; line-height: 1; color: var(--chalk); letter-spacing: 0.02em;
+  }
+
+  /* tabs get an equal-width column each, so they're truly evenly spaced and fill
+     the banner; text grows on wide screens */
+  .nav__primary {
+    flex: 1 1 auto; display: grid; align-items: center;
+    grid-auto-flow: column; grid-auto-columns: 1fr;
+  }
+  .nav__link {
+    justify-self: center; text-align: center;
+    font-family: var(--font-sans); font-size: clamp(0.8rem, 1.1vw, 1.15rem); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.03em;
+    color: var(--chalk-dim); padding: 0.6rem 0.4rem;
+    border-bottom: 3px solid transparent; white-space: nowrap;
+    background: none; border-left: 0; border-right: 0; border-top: 0; cursor: pointer;
+  }
+  .nav__link:hover { color: var(--chalk); text-decoration: none; }
+  .nav__link.is-active { color: var(--penalty-flag); border-bottom-color: var(--penalty-flag); }
+  .nav__menu { color: var(--chalk); }
+
+  .nav__espn {
+    flex-shrink: 0; display: inline-flex; align-items: center; gap: 0.3rem;
+    font-family: var(--font-sans); font-weight: 800; font-size: clamp(0.7rem, 0.9vw, 0.9rem);
+    text-transform: uppercase; letter-spacing: 0.04em;
+    background: var(--penalty-flag); color: var(--pixel-ink);
+    padding: 0.5rem 0.8rem; border: 2px solid var(--pixel-ink);
+    box-shadow: 3px 3px 0 0 var(--pixel-ink);
+  }
+  .nav__espn:hover { text-decoration: none; transform: translate(1px, 1px); box-shadow: 2px 2px 0 0 var(--pixel-ink); }
+  .nav__espn-short { display: none; }
+
+  /* mobile bottom tab bar */
+  .tabbar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    display: none; grid-auto-flow: column; grid-auto-columns: 1fr;
+    background: var(--end-zone); border-top: var(--border-nes);
+  }
+  .tabbar__item {
+    display: flex; flex-direction: column; align-items: center; gap: 0.15rem;
+    padding: 0.45rem 0.25rem 0.55rem;
+    font-family: var(--font-mono); font-size: 0.56rem; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--chalk-dim);
+    background: none; border: 0; cursor: pointer;
+  }
+  .tabbar__item.is-active { color: var(--penalty-flag); }
+  .tabbar__item:hover { text-decoration: none; }
+
+  .sheet {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(5, 19, 11, 0.55);
+    display: grid; align-items: end;
+  }
+  .sheet[hidden] { display: none; }
+  .sheet__panel { margin: 0.5rem; max-height: 84vh; overflow-y: auto; width: min(560px, calc(100% - 1rem)); margin-inline: auto; }
+  .sheet__strip { position: sticky; top: 0; }
+  .sheet__close { margin-left: auto; background: none; border: 0; color: inherit; font-size: 0.8rem; cursor: pointer; }
+  .sheet__grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .sheet__link {
+    display: flex; align-items: center; gap: 0.55rem;
+    padding: 0.85rem 0.9rem;
+    font-family: var(--font-mono); font-size: 0.76rem; text-transform: uppercase;
+    letter-spacing: 0.03em; color: var(--chalk);
+    border-bottom: 1px solid var(--hash-mark); border-right: 1px solid var(--hash-mark);
+  }
+  .sheet__link.is-active { color: var(--penalty-flag); }
+  .sheet__link:hover { background: var(--turf-line-2); text-decoration: none; }
+
+  @media (max-width: 1040px) {
+    .nav__primary { display: none; }
+    .nav__brandtext { display: none; }
+    .nav__brand { margin-right: auto; }
+    .nav__espn-full { display: none; }
+    .nav__espn-short { display: inline; }
+    .tabbar { display: grid; }
+    :global(main) { padding-bottom: 4.75rem; }
+  }
+</style>

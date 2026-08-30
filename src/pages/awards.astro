@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import EmptyState from '../components/EmptyState.astro';
+import DataStamp from '../components/DataStamp.astro';
+import TeamTag from '../components/TeamTag.astro';
+import league from '../data/league.json';
+import { teamById } from '../lib/site.js';
+
+const weekly = (league.awards?.weekly || []).slice().reverse();
+---
+<Base
+  title="Awards"
+  kicker="The Vault"
+  heading="Winner & Loser of the Week"
+  description="Every week's high scorer takes a bow; every week's low scorer gets the plunger."
+>
+  <section class="container section--tight aw-wrap">
+    <p class="lede">
+      Two awards, every week. <strong class="w">Winner of the Week</strong> for the top score.
+      <strong class="l">Loser of the Week</strong> for the bottom — and the internet never forgets.
+    </p>
+
+    {weekly.length ? (
+      <div class="aw-list">
+        {weekly.map((a) => (
+          <article class="aw-week panel">
+            <div class="strip aw-week__strip"><span aria-hidden="true">▚</span><span>Week {a.week}</span></div>
+            <div class="aw-week__body">
+              <div class="aw-slot aw-slot--w">
+                <p class="kicker">👑 Winner</p>
+                <TeamTag team={teamById(a.high.teamId)} size="sm" />
+                <p class="aw-slot__score readout">{a.high.score}</p>
+              </div>
+              <div class="aw-slot aw-slot--l">
+                <p class="kicker kicker--red">🚽 Loser</p>
+                <TeamTag team={teamById(a.low.teamId)} size="sm" />
+                <p class="aw-slot__score readout">{a.low.score}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <EmptyState icon="star" title="First awards drop in Week 1">
+        The moment Week 1 scores are final, the highest and lowest managers get their flowers
+        (and their plunger) right here — and it keeps a running tally all season.
+      </EmptyState>
+    )}
+    <DataStamp iso={league.generatedAt} />
+  </section>
+</Base>
+
+<style>
+  .aw-wrap { max-width: 640px; }
+  .lede { color: var(--chalk-dim); margin-bottom: 1.75rem; line-height: 1.8; }
+  .lede .w { color: var(--first-down); }
+  .lede .l { color: var(--blitz-red); }
+  .kicker--red { color: var(--blitz-red); }
+  .aw-list { display: grid; gap: 1rem; }
+  .aw-week__strip { justify-content: flex-start; }
+  .aw-week__body { display: grid; grid-template-columns: 1fr 1fr; }
+  .aw-slot { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .aw-slot--w { border-right: 1px solid var(--hash-mark); border-left: 5px solid var(--first-down); background: rgba(10,122,77,0.09); }
+  .aw-slot--l {
+    border-left: 5px solid var(--blitz-red);
+    background: linear-gradient(150deg, #1c0303, #440000);
+    color: var(--on-ink);
+  }
+  .aw-slot--l :global(.tt__name) { color: var(--on-ink); }
+  .aw-slot--l .aw-slot__score { color: var(--on-ink); }
+  .aw-slot__score { font-size: 1.5rem; font-weight: 700; }
+  @media (max-width: 460px) {
+    .aw-week__body { grid-template-columns: 1fr; }
+    .aw-slot--w { border-right: 0; border-bottom: 1px solid var(--hash-mark); }
+  }
+</style>

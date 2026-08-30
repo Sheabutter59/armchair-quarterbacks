@@ -1,0 +1,19 @@
+---
+import Icon from './Icon.astro';
+interface Props { icon?: string; title: string; }
+const { icon = 'star', title } = Astro.props;
+---
+<div class="empty panel">
+  <span class="empty__ico"><Icon name={icon} size={30} /></span>
+  <h2 class="empty__title">{title}</h2>
+  <p class="empty__body"><slot /></p>
+</div>
+<style>
+  .empty {
+    text-align: center; padding: clamp(2rem, 6vw, 3.5rem) 1.5rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  }
+  .empty__ico { color: var(--penalty-flag); }
+  .empty__title { font-size: 1.2rem; }
+  .empty__body { color: var(--chalk-dim); max-width: 46ch; font-size: 0.95rem; }
+</style>

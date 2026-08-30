@@ -1,0 +1,13 @@
+---
+/** Compact "AQ" monogram for the nav bar and small placements. */
+interface Props { class?: string; tile?: boolean; }
+const { class: klass = '', tile = false } = Astro.props;
+---
+<svg class:list={['monogram', klass]} viewBox="0 0 64 64" role="img" aria-label="Armchair Quarterbacks" xmlns="http://www.w3.org/2000/svg">
+  <defs><style>.mg-t{font-family:'Montserrat',system-ui,sans-serif;font-weight:900;}</style></defs>
+  {tile && <rect x="2" y="2" width="60" height="60" fill="#05130b" />}
+  <g aria-hidden="true">
+    <text class="mg-t" x="32" y="46" font-size="30" letter-spacing="-1" text-anchor="middle" fill="#17c6ba">AQ</text>
+  </g>
+</svg>
+<style>.monogram { display: block; width: 100%; height: 100%; }</style>

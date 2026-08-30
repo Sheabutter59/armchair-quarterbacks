@@ -1,0 +1,30 @@
+{
+  "name": "armchair-quarterbacks",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "sync": "node scripts/sync-espn.mjs",
+    "news": "node scripts/fetch-news.mjs",
+    "rankings": "node scripts/fetch-rankings.mjs",
+    "players": "node scripts/fetch-nfl-players.mjs",
+    "topplayers": "node scripts/fetch-top-players.mjs",
+    "memes": "node scripts/build-memes.mjs",
+    "refresh": "npm run sync && npm run news && npm run rankings && npm run players && npm run topplayers && npm run memes"
+  },
+  "dependencies": {
+    "@fontsource/montserrat": "^5.3.0",
+    "astro": "^5.14.1"
+  },
+  "devDependencies": {
+    "fast-xml-parser": "^4.5.0"
+  },
+  "allowScripts": {
+    "esbuild@0.27.7": true,
+    "esbuild@0.25.12": true,
+    "sharp@0.34.5": true
+  }
+}

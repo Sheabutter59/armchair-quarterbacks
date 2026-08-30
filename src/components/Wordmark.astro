@@ -1,0 +1,64 @@
+---
+/**
+ * The Armchair Quarterbacks wordmark.
+ * Heavy geometric sans (Montserrat 900), solid flame-orange (#FF9912) fill,
+ * thin black keyline + one hard black offset shadow — bold-poster treatment.
+ * Scales to its container via viewBox.
+ */
+interface Props {
+  class?: string;
+  title?: string;
+  layout?: 'stacked' | 'inline';
+}
+const { class: klass = '', title = 'Armchair Quarterbacks', layout = 'stacked' } = Astro.props;
+
+const stacked = layout === 'stacked';
+const W = 760;
+const H = stacked ? 300 : 116;
+const vb = `0 0 ${W} ${H}`;
+const shadow = stacked ? 10 : 7;
+
+const INK = '#05130b';
+const FLAME = '#17c6ba';
+
+const lines = stacked
+  ? [
+      { t: 'ARMCHAIR', x: W / 2, y: 116, size: 96, len: 512 },
+      { t: 'QUARTERBACKS', x: W / 2, y: 268, size: 88, len: 716 },
+    ]
+  : [{ t: 'ARMCHAIR QUARTERBACKS', x: W / 2, y: 90, size: 74, len: 732 }];
+
+const attrs = (l: (typeof lines)[number]) => ({
+  x: l.x,
+  y: l.y,
+  'font-size': l.size,
+  textLength: l.len,
+  lengthAdjust: 'spacing' as const,
+  'text-anchor': 'middle' as const,
+});
+---
+
+<svg class:list={['wordmark', klass]} viewBox={vb} role="img" aria-label={title} xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.wm-t { font-family: 'Montserrat', system-ui, sans-serif; font-weight: 900; }</style>
+  </defs>
+
+  {/* hard offset shadow */}
+  <g transform={`translate(${shadow},${shadow})`} aria-hidden="true" fill={INK}>
+    {lines.map((l) => <text class="wm-t" {...attrs(l)}>{l.t}</text>)}
+  </g>
+
+  {/* thin black keyline */}
+  <g aria-hidden="true" fill="none" stroke={INK} stroke-width="6" stroke-linejoin="round">
+    {lines.map((l) => <text class="wm-t" {...attrs(l)}>{l.t}</text>)}
+  </g>
+
+  {/* solid flame fill */}
+  <g aria-hidden="true" fill={FLAME}>
+    {lines.map((l) => <text class="wm-t" {...attrs(l)}>{l.t}</text>)}
+  </g>
+</svg>
+
+<style>
+  .wordmark { display: block; width: 100%; height: auto; overflow: visible; }
+</style>

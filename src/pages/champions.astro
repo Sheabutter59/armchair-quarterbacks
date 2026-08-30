@@ -1,0 +1,166 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Icon from '../components/Icon.astro';
+import history from '../data/history.json';
+import { teamById, withBase } from '../lib/site.js';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const seasons = [...(history.seasons || [])].sort((a, b) => b.year - a.year);
+const latest = seasons[0];
+
+const records = Object.entries(history.records || {})
+  .filter(([k]) => k !== '_comment')
+  .filter(([, v]) => v && v.value != null);
+
+const RECORD_LABELS = {
+  single_week_high: 'Highest single week',
+  single_week_low: 'Lowest single week',
+  single_season_points: 'Most points, one season',
+  biggest_blowout: 'Biggest blowout',
+  longest_win_streak: 'Longest win streak',
+};
+---
+<Base
+  title="Champions"
+  kicker="The Vault"
+  heading="Champions & the Wall of Shame"
+>
+  {latest && (
+    <section class="container section--tight">
+      <div class="reign panel panel--gold">
+        <div class="reign__badge"><Icon name="trophy" size={40} /></div>
+        <div>
+          <p class="kicker">Reigning Champion · {latest.year}</p>
+          <p class="reign__team">{latest.champion.team}</p>
+          <p class="reign__owner">{latest.champion.owner}</p>
+          {latest.note && <p class="reign__note">{latest.note}</p>}
+        </div>
+        <div class="reign__sacko">
+          <span aria-hidden="true">🚽</span>
+          <p class="kicker kicker--red">{latest.year} Sacko</p>
+          <p class="reign__sackoteam">{latest.lastPlace.team}</p>
+          <p class="reign__owner">{latest.lastPlace.owner}</p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="container section">
+    <SectionHeader label="Season by Season" />
+    <div class="ledger">
+      {seasons.map((s) => (
+        <article class="year panel">
+          <div class="strip year__strip"><span aria-hidden="true">▚</span><span>{s.year}</span></div>
+          <ol class="podium">
+            <li class="podium__row podium__row--1">
+              <span class="podium__place readout">1st</span>
+              <span class="podium__team">{s.champion.team}</span>
+              <span class="podium__owner readout">{s.champion.owner}</span>
+              <span class="podium__cash chip">+$120</span>
+            </li>
+            <li class="podium__row podium__row--2">
+              <span class="podium__place readout">2nd</span>
+              <span class="podium__team">{s.runnerUp.team}</span>
+              <span class="podium__owner readout">{s.runnerUp.owner}</span>
+              <span class="podium__cash chip">+$60</span>
+            </li>
+            <li class="podium__row podium__row--3">
+              <span class="podium__place readout">3rd</span>
+              <span class="podium__team">{s.third.team}</span>
+              <span class="podium__owner readout">{s.third.owner}</span>
+              <span class="podium__cash chip">buy-in back</span>
+            </li>
+            <li class="podium__row podium__row--last">
+              <span class="podium__place readout">Last</span>
+              <span class="podium__team">{s.lastPlace.team}</span>
+              <span class="podium__owner readout">{s.lastPlace.owner}</span>
+              <span class="podium__cash chip chip--shame">🚽 Sacko</span>
+            </li>
+          </ol>
+        </article>
+      ))}
+    </div>
+    <p class="footnote readout">
+      {history.preEspnNote}
+    </p>
+  </section>
+
+  <section class="container section--tight">
+    <SectionHeader label="Record Book" />
+    {records.length ? (
+      <table class="stat-table">
+        <tbody>
+          {records.map(([k, v]) => (
+            <tr>
+              <td>{RECORD_LABELS[k] || k}</td>
+              <td class="rec__val">{v.value}</td>
+              <td>{[v.owner, v.detail, v.week && `Wk ${v.week}`, v.year].filter(Boolean).join(' · ')}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ) : (
+      <div class="panel recbox">
+        <p>
+          The record book fills in as the league builds history. Got the numbers from 2025 —
+          highest week, biggest blowout, longest streak? Drop them into
+          <code>src/data/history.json</code> and they show up here.
+        </p>
+      </div>
+    )}
+  </section>
+</Base>
+
+<style>
+  .reign {
+    display: grid; gap: 1.25rem 2rem; padding: clamp(1.25rem, 3vw, 2rem);
+    grid-template-columns: auto 1fr;
+    align-items: center;
+  }
+  .reign__badge { color: var(--penalty-flag); }
+  .reign__team { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 700; line-height: 1.1; margin-top: 0.3rem; }
+  .reign__owner { font-family: var(--font-mono); font-size: 0.78rem; color: var(--chalk-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+  .reign__note { margin-top: 0.5rem; color: var(--chalk-dim); font-size: 0.9rem; }
+  .reign__sacko {
+    grid-column: 1 / -1;
+    margin: 0.5rem -0.6rem -0.6rem;
+    padding: 1rem 1.1rem 1.1rem;
+    background: var(--losing-gradient);
+    border: var(--border-nes); border-top-width: 3px;
+    color: var(--on-ink);
+  }
+  .reign__sacko > span[aria-hidden] { font-size: 1.5rem; }
+  .reign__sackoteam { font-weight: 700; font-size: 1.1rem; color: var(--on-ink); }
+  .reign__sacko .reign__owner { color: #f0b8b8; }
+  .kicker--red { color: #ff7a5a; }
+
+  .ledger { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .year__strip { justify-content: flex-start; }
+  .podium { list-style: none; }
+  .podium__row {
+    display: grid; grid-template-columns: 3rem 1fr auto; gap: 0.15rem 0.75rem;
+    align-items: center; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--hash-mark);
+  }
+  .podium__row:last-child { border-bottom: 0; }
+  .podium__place { color: var(--chalk-dim); font-size: 0.8rem; }
+  .podium__row--1 .podium__place { color: var(--penalty-flag); }
+  .podium__row--last { background: linear-gradient(150deg, #1c0303, #4a0000); color: var(--on-ink); }
+  .podium__row--last .podium__team { color: var(--on-ink); }
+  .podium__row--last .podium__place { color: #ff9a7a; }
+  .podium__row--last .podium__owner { color: #e29a9a; }
+  .podium__team { font-weight: 600; }
+  .podium__owner { grid-column: 2; font-size: 0.66rem; color: var(--chalk-faint); text-transform: uppercase; letter-spacing: 0.05em; }
+  .podium__cash { grid-row: 1 / span 2; grid-column: 3; align-self: center; }
+  .chip--shame { background: var(--blitz-red); color: var(--chalk); border-color: var(--pixel-ink); }
+
+  .footnote, .recbox { margin-top: 1.25rem; color: var(--chalk-dim); }
+  .recbox { padding: 1.25rem; font-size: 0.92rem; }
+  .recbox code, .footnote code { font-family: var(--font-mono); color: var(--penalty-flag); font-size: 0.85em; }
+  .rec__val { color: var(--penalty-flag); font-weight: 600; }
+
+  @media (max-width: 560px) {
+    .reign { grid-template-columns: 1fr; text-align: center; }
+    .reign__badge { justify-self: center; }
+  }
+</style>

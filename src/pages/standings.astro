@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+import TeamTag from '../components/TeamTag.astro';
+import DataStamp from '../components/DataStamp.astro';
+import Icon from '../components/Icon.astro';
+import league from '../data/league.json';
+import info from '../data/league-info.json';
+import { TEAMS, LEAGUE, recordStr, streakStr, ME_TEAM_ID } from '../lib/site.js';
+
+const started = LEAGUE.seasonStarted;
+
+// regular-season points-for is the real seeding metric in this league
+const rows = [...TEAMS].map((t) => ({
+  ...t,
+  diff: (t.record.pointsFor ?? 0) - (t.record.pointsAgainst ?? 0),
+}));
+
+rows.sort((a, b) => {
+  if (!started) return a.name.localeCompare(b.name);
+  // seeding rule: total points scored
+  return (b.record.pointsFor ?? 0) - (a.record.pointsFor ?? 0);
+});
+const playoffLine = LEAGUE.playoffTeamCount || 4;
+---
+<Base
+  title="Standings"
+  kicker="The League"
+  heading="Standings"
+  description="Armchair Quarterbacks standings — remember, playoff seeding is by total points, not record."
+>
+  <section class="container section--tight">
+    <div class="seedrule panel">
+      <Icon name="bolt" size={20} />
+      <p>{info.format.seedingRule}</p>
+    </div>
+
+    {!started && (
+      <p class="lede">
+        Season hasn't kicked off yet — everyone's 0–0 and full of hope. This table ranks by
+        <strong> total points scored</strong> once games start, and the top {playoffLine} make
+        the playoffs.
+      </p>
+    )}
+
+    <div class="tablewrap">
+      <table class="stat-table standings">
+        <thead>
+          <tr>
+            <th class="c-rank">#</th>
+            <th class="c-team">Team</th>
+            <th>W-L</th>
+            <th>PF</th>
+            <th>PA</th>
+            <th>Diff</th>
+            <th>Strk</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((t, i) => (
+            <tr data-me={t.id === ME_TEAM_ID} class:list={{ 'is-cut': started && i === playoffLine }}>
+              <td class="c-rank readout">{started ? i + 1 : '—'}</td>
+              <td class="c-team"><TeamTag team={t} size="sm" showOwner={true} /></td>
+              <td>{started ? recordStr(t.record) : '0-0'}</td>
+              <td class="pf">{t.record.pointsFor ?? '0.0'}</td>
+              <td>{t.record.pointsAgainst ?? '0.0'}</td>
+              <td class:list={{ pos: t.diff > 0, neg: t.diff < 0 }}>
+                {started ? (t.diff > 0 ? '+' : '') + t.diff.toFixed(1) : '—'}
+              </td>
+              <td>{started ? streakStr(t.record) : '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    {started && (
+      <p class="cutnote readout">
+        <span class="cutnote__line" aria-hidden="true"></span>
+        Line = top {playoffLine} (playoff cut), by total points.
+      </p>
+    )}
+
+    <DataStamp iso={league.generatedAt} />
+  </section>
+</Base>
+
+<style>
+  .seedrule {
+    display: flex; gap: 0.85rem; align-items: flex-start;
+    padding: 0.9rem 1.1rem; margin-bottom: 1.5rem; border-color: var(--penalty-flag);
+    color: var(--chalk-dim); font-size: 0.9rem; line-height: 1.6;
+  }
+  .seedrule :global(svg) { color: var(--penalty-flag); flex-shrink: 0; margin-top: 0.15rem; }
+  .lede { color: var(--chalk-dim); margin-bottom: 1.5rem; }
+  .lede strong { color: var(--penalty-flag); }
+
+  .tablewrap { overflow-x: auto; border: var(--border-nes); background: var(--turf-line); box-shadow: var(--shadow-nes); }
+  .standings { min-width: 560px; }
+  .standings th.c-rank, .standings td.c-rank { width: 2.5rem; text-align: center; }
+  .standings th.c-team, .standings td.c-team { text-align: left; min-width: 200px; }
+  .standings .pf { color: var(--penalty-flag); font-weight: 600; }
+  .standings .pos { color: var(--first-down); }
+  .standings .neg { color: var(--blitz-red); }
+  .standings tr.is-cut td { border-top: 3px solid var(--penalty-flag); }
+
+  .cutnote { margin-top: 0.75rem; color: var(--chalk-faint); display: flex; align-items: center; gap: 0.5rem; }
+  .cutnote__line { display: inline-block; width: 24px; height: 3px; background: var(--penalty-flag); }
+</style>

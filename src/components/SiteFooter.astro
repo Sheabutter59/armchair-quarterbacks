@@ -1,0 +1,76 @@
+---
+import info from '../data/league-info.json';
+import history from '../data/history.json';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const year = new Date().getFullYear();
+---
+<footer class="foot">
+  <div class="container foot__inner">
+    <div>
+      <p class="pixel foot__name">Armchair Quarterbacks</p>
+      <p class="foot__meta readout">
+        Est. {history.firstSeason} · {info.format.teams} teams · {info.format.scoring}
+      </p>
+    </div>
+    <nav class="foot__links">
+      <a href={`${base}/rules`}>Rules</a>
+      <a href={`${base}/payouts`}>Payouts</a>
+      <a href={`${base}/champions`}>Champions</a>
+      <a href={info.espnLeagueUrl} rel="noopener">ESPN League ↗</a>
+    </nav>
+    <div class="foot__toggles">
+      <button data-crt-toggle class="foot__btn">CRT: <span data-crt-state>off</span></button>
+    </div>
+  </div>
+  <p class="container foot__fine">
+    Unofficial league site. Player data via ESPN. Not affiliated with ESPN, the NFL, or Tecmo.
+    Made for the group chat, {year}.
+  </p>
+</footer>
+
+<script>
+  const KEY = 'aq-crt';
+  const apply = (on) => {
+    document.body.classList.toggle('crt', on);
+    document.querySelectorAll('[data-crt-state]').forEach((s) => (s.textContent = on ? 'on' : 'off'));
+  };
+  try { apply(localStorage.getItem(KEY) === '1'); } catch {}
+  document.querySelectorAll('[data-crt-toggle]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const on = !document.body.classList.contains('crt');
+      apply(on);
+      try { localStorage.setItem(KEY, on ? '1' : '0'); } catch {}
+    }),
+  );
+</script>
+
+<style>
+  .foot {
+    background: #05130b;
+    border-top: var(--border-nes);
+    margin-top: 3rem;
+    padding-block: 2rem 1.5rem;
+    color: #e6dcc0;
+  }
+  .foot__inner {
+    display: flex; flex-wrap: wrap; gap: 1.5rem 2rem;
+    align-items: center; justify-content: space-between;
+  }
+  .foot__name { font-size: 0.8rem; font-weight: 900; color: var(--penalty-flag); text-transform: uppercase; }
+  .foot__meta { font-size: 0.75rem; color: #a89e83; margin-top: 0.4rem; }
+  .foot__links { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+  .foot__links a {
+    font-family: var(--font-sans); font-weight: 600; font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #c9bd9a;
+  }
+  .foot__links a:hover { color: var(--penalty-flag); }
+  .foot__btn {
+    font-family: var(--font-sans); font-weight: 600; font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.08em; background: #16241b; color: #c9bd9a;
+    border: 2px solid #33413a; padding: 0.4rem 0.6rem; cursor: pointer;
+  }
+  .foot__fine {
+    margin-top: 1.5rem; font-size: 0.7rem; color: #8a8069;
+    font-family: var(--font-sans); line-height: 1.7;
+  }
+</style>

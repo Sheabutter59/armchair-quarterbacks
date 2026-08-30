@@ -1,0 +1,113 @@
+{
+  "_comment": "Meme wall + rotating Meme of the Week. Add images to public/memes/ then run `npm run memes`. Edit `caption` freely — it is preserved across rebuilds.",
+  "memes": [
+    {
+      "id": 1,
+      "src": "/memes/89846diarkqf1.webp",
+      "caption": "Certified group-chat material",
+      "alt": "League meme"
+    },
+    {
+      "id": 2,
+      "src": "/memes/behold-my-ws-v0-eyhezj4enlud1.webp",
+      "caption": "Behold My Ws",
+      "alt": "Behold My Ws"
+    },
+    {
+      "id": 3,
+      "src": "/memes/cjhs7vbuzdpf1.webp",
+      "caption": "Certified group-chat material",
+      "alt": "League meme"
+    },
+    {
+      "id": 4,
+      "src": "/memes/cut-my-life-into-pieces-v0-tipc84xn0g9g1.webp",
+      "caption": "Cut My Life Into Pieces",
+      "alt": "Cut My Life Into Pieces"
+    },
+    {
+      "id": 5,
+      "src": "/memes/everyone-get-the-fuck-in-here-and-laugh-at-the-vikings-v0-9fxs5w1l1eig1.webp",
+      "caption": "Everyone Get The Fuck In Here And Laugh At The Vikings",
+      "alt": "Everyone Get The Fuck In Here And Laugh At The Vikings"
+    },
+    {
+      "id": 6,
+      "src": "/memes/glazing-like-we-may-never-see-again-v0-sb4y2akw006g1.webp",
+      "caption": "Glazing Like We May Never See Again",
+      "alt": "Glazing Like We May Never See Again"
+    },
+    {
+      "id": 7,
+      "src": "/memes/hahahahahaha-v0-uw8r9l83dncg1.webp",
+      "caption": "Certified group-chat material",
+      "alt": "League meme"
+    },
+    {
+      "id": 8,
+      "src": "/memes/i-cant-help-it-v0-td0t4uxajude1.webp",
+      "caption": "I Cant Help It",
+      "alt": "I Cant Help It"
+    },
+    {
+      "id": 9,
+      "src": "/memes/i-think-its-heroic-v0-hdinuvffexjg1.webp",
+      "caption": "I Think Its Heroic",
+      "alt": "I Think Its Heroic"
+    },
+    {
+      "id": 10,
+      "src": "/memes/imagine-losing-to-the-rams-v0-z3ajhgyfjtwd1.webp",
+      "caption": "Imagine Losing To The Rams",
+      "alt": "Imagine Losing To The Rams"
+    },
+    {
+      "id": 11,
+      "src": "/memes/most-most-sensible-dolphins-fan-v0-y4n3f4kikkod1.webp",
+      "caption": "Most Most Sensible Dolphins Fan",
+      "alt": "Most Most Sensible Dolphins Fan"
+    },
+    {
+      "id": 12,
+      "src": "/memes/new-coach-meme-just-dropped-v0-seg75n9e5v9e1.webp",
+      "caption": "New Coach Meme Just Dropped",
+      "alt": "New Coach Meme Just Dropped"
+    },
+    {
+      "id": 13,
+      "src": "/memes/someone-broke-into-my-car-and-left-four-bengals-tickets-v0-xcex2xrlmjsf1.webp",
+      "caption": "Someone Broke Into My Car And Left Four Bengals Tickets",
+      "alt": "Someone Broke Into My Car And Left Four Bengals Tickets"
+    },
+    {
+      "id": 14,
+      "src": "/memes/t9nxb95vtxn81.webp",
+      "caption": "Certified group-chat material",
+      "alt": "League meme"
+    },
+    {
+      "id": 15,
+      "src": "/memes/the-3-peat-weve-all-been-waiting-for-v0-7vnga8xs750e1.webp",
+      "caption": "The 3 Peat Weve All Been Waiting For",
+      "alt": "The 3 Peat Weve All Been Waiting For"
+    },
+    {
+      "id": 16,
+      "src": "/memes/the-north-is-the-same-everywhere-v0-ow6d7nzekfge1.webp",
+      "caption": "The North Is The Same Everywhere",
+      "alt": "The North Is The Same Everywhere"
+    },
+    {
+      "id": 17,
+      "src": "/memes/the-resemblance-is-uncanny-v0-czawz2tpc77e1.webp",
+      "caption": "The Resemblance Is Uncanny",
+      "alt": "The Resemblance Is Uncanny"
+    },
+    {
+      "id": 18,
+      "src": "/memes/yall-aint-like-that-v0-ag3du4j4p55e1.webp",
+      "caption": "Yall Aint Like That",
+      "alt": "Yall Aint Like That"
+    }
+  ]
+}

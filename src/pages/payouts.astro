@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Icon from '../components/Icon.astro';
+import info from '../data/league-info.json';
+import { POT } from '../lib/site.js';
+
+const m = info.money;
+const paidOut = m.payouts.reduce((s, p) => s + p.amount, 0);
+---
+<Base
+  title="Payouts"
+  kicker="The Money"
+  heading="Buy-in, Pot & Payouts"
+  description="Where the money goes in the Armchair Quarterbacks league."
+>
+  <section class="container section--tight">
+    <div class="potline">
+      <div class="potcell panel">
+        <p class="kicker">Buy-in</p>
+        <p class="potcell__num readout">${m.buyIn}</p>
+        <p class="potcell__sub">per team</p>
+      </div>
+      <span class="potop pixel">×</span>
+      <div class="potcell panel">
+        <p class="kicker">Teams</p>
+        <p class="potcell__num readout">{info.format.teams}</p>
+        <p class="potcell__sub">managers</p>
+      </div>
+      <span class="potop pixel">=</span>
+      <div class="potcell panel panel--gold">
+        <p class="kicker">The Pot</p>
+        <p class="potcell__num readout">${POT}</p>
+        <p class="potcell__sub">winner-take-most</p>
+      </div>
+    </div>
+
+    <SectionHeader label="The Split" />
+    <table class="stat-table payout-table">
+      <thead>
+        <tr><th>Finish</th><th>Prize</th><th>Take</th></tr>
+      </thead>
+      <tbody>
+        {m.payouts.map((p) => (
+          <tr>
+            <td><span class="pl">{p.place}</span> {p.label}</td>
+            <td class="cash">${p.amount}</td>
+            <td class="pct readout">{Math.round((p.amount / POT) * 100)}%</td>
+          </tr>
+        ))}
+        <tr class="payout-table__rest">
+          <td>4th – {info.format.teams}th</td>
+          <td class="cash cash--zero">$0</td>
+          <td class="pct readout">—</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr><td>Total paid out</td><td class="cash">${paidOut}</td><td class="readout">of ${POT}</td></tr>
+      </tfoot>
+    </table>
+    <p class="note readout">
+      1st and 2nd are real money. 3rd place just gets their ${m.buyIn} buy-in back — a moral
+      victory and nothing more. Everyone from 4th down is paying for someone else's winnings.
+    </p>
+
+    {m.penalties?.length > 0 && (
+      <>
+        <SectionHeader label="The Cost of Losing" />
+        <ul class="penalties">
+          {m.penalties.map((p) => (
+            <li class="penalty panel">
+              <span class="penalty__ico" aria-hidden="true">🚽</span>
+              <div>
+                <p class="penalty__label">{p.label}</p>
+                <p class="penalty__detail">{p.detail}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    <div class="paynote panel">
+      <Icon name="cash" size={20} />
+      <p>
+        Buy-in is due <strong>before the draft</strong>. Not paid = auto-drafted and locked out
+        of transactions until you settle up. Collector is whoever the group chat has volunteered.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .potline { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 2rem; }
+  .potcell { padding: 1rem 1.25rem; text-align: center; min-width: 130px; }
+  .potcell__num { font-size: 1.9rem; font-weight: 600; color: var(--penalty-flag); margin-top: 0.25rem; }
+  .potcell__sub { font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--chalk-faint); }
+  .potop { font-size: 1.4rem; color: var(--chalk-dim); }
+
+  .payout-table { margin-bottom: 0.75rem; }
+  .payout-table .pl { display: inline-block; min-width: 2.4rem; font-family: var(--font-mono); color: var(--penalty-flag); }
+  .payout-table .cash { color: var(--first-down); font-weight: 600; }
+  .payout-table .cash--zero { color: var(--chalk-faint); }
+  .payout-table__rest td { color: var(--chalk-dim); }
+  .payout-table tfoot td { border-top: var(--border-nes); border-bottom: 0; padding-top: 0.7rem; color: var(--chalk-dim); }
+  .note { color: var(--chalk-dim); margin-bottom: 2rem; line-height: 1.7; }
+
+  .penalties { list-style: none; display: grid; gap: 0.75rem; margin-bottom: 2rem; }
+  .penalty {
+    display: flex; gap: 0.85rem; align-items: center; padding: 1.1rem 1.25rem;
+    background: var(--losing-gradient); border-color: var(--blitz-red);
+    color: var(--on-ink);
+  }
+  .penalty__ico { font-size: 1.5rem; }
+  .penalty__label { font-weight: 700; color: var(--on-ink); }
+  .penalty__detail { color: #f0bcbc; font-size: 0.9rem; }
+
+  .paynote { display: flex; gap: 0.85rem; align-items: flex-start; padding: 1rem 1.25rem; color: var(--chalk-dim); }
+  .paynote :global(svg) { color: var(--penalty-flag); flex-shrink: 0; margin-top: 0.2rem; }
+  .paynote strong { color: var(--chalk); }
+</style>

@@ -1,0 +1,57 @@
+name: Refresh data
+
+on:
+  schedule:
+    # NFL news — every 4 hours
+    - cron: '23 */4 * * *'
+    # top fantasy scorers — Monday, Tuesday, Friday mornings (US)
+    - cron: '37 12 * * 1,2,5'
+    # full league sync + rankings + player DB — Tuesday & Wednesday mornings
+    - cron: '23 12 * * 2,3'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+
+      - name: Fetch NFL news
+        run: npm run news
+        continue-on-error: true
+
+      - name: Top fantasy scorers (Mon / Tue / Fri)
+        if: github.event.schedule == '37 12 * * 1,2,5' || github.event.schedule == '23 12 * * 2,3' || github.event_name == 'workflow_dispatch'
+        run: npm run topplayers
+        continue-on-error: true
+
+      - name: League sync + rankings + player DB (Tue / Wed)
+        if: github.event.schedule == '23 12 * * 2,3' || github.event_name == 'workflow_dispatch'
+        run: |
+          npm run sync || true
+          npm run rankings || true
+          npm run players || true
+
+      - name: Commit any data changes
+        run: |
+          git config user.name "armchair-qb-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/
+          if git diff --staged --quiet; then
+            echo "No data changes."
+          else
+            git commit -m "data: scheduled refresh"
+            git push
+          fi

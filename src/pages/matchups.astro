@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import MatchupRow from '../components/MatchupRow.astro';
+import DataStamp from '../components/DataStamp.astro';
+import league from '../data/league.json';
+import { LEAGUE } from '../lib/site.js';
+
+const weeks = LEAGUE.weeks || league.weeks || [];
+const regWeeks = LEAGUE.regularSeasonWeeks || 13;
+---
+<Base
+  title="Matchups"
+  kicker="The League"
+  heading="Full Schedule"
+  description="Every regular-season matchup for the Armchair Quarterbacks league."
+>
+  <section class="container section--tight">
+    {weeks.length === 0 ? (
+      <div class="panel emptybox"><p>The schedule is set once the season is scheduled in ESPN.</p></div>
+    ) : (
+      <>
+        <p class="lede">
+          The full {regWeeks}-week regular-season slate. Scores fill in as weeks are played;
+          jump to live scores on the <a href={import.meta.env.BASE_URL.replace(/\/$/, '') + '/scoreboard'}>scoreboard</a>.
+        </p>
+        <div class="sched">
+          {weeks.map((w) => (
+            <section class="swk">
+              <div class="strip swk__strip">
+                <span aria-hidden="true">▚</span>
+                <span>Week {w.week}</span>
+                {w.isPlayoffs && <span class="swk__po">Playoffs</span>}
+              </div>
+              <div class="swk__games">
+                {w.games.map((g) => <MatchupRow game={g} />)}
+              </div>
+            </section>
+          ))}
+        </div>
+        <DataStamp iso={league.generatedAt} />
+      </>
+    )}
+  </section>
+</Base>
+
+<style>
+  .lede { color: var(--chalk-dim); margin-bottom: 1.5rem; }
+  .sched { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); align-items: start; }
+  .swk__strip { justify-content: flex-start; }
+  .swk__po { color: var(--penalty-flag); font-size: 0.6rem; }
+  .swk__games { display: grid; gap: 0.5rem; margin-top: 0.75rem; }
+  .emptybox { padding: 1.5rem; color: var(--chalk-dim); }
+</style>

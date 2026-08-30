@@ -1,0 +1,9 @@
+{
+  "_comment": "Hand-maintained data merged into league.json by scripts/sync-espn.mjs. Safe to edit by hand and commit.",
+  "teams": {
+    "1": { "ownerHandle": "Colonel Sanders College Commander" },
+    "3": { "ownerHandle": "ImYoshingYou" },
+    "5": { "ownerHandle": "DeltaV" }
+  },
+  "powerNotes": {}
+}

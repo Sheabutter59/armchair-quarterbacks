@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import info from '../data/league-info.json';
+
+const g = info.giscus || {};
+const configured = g.repo && g.repoId && g.categoryId && !g.repo.startsWith('your-username');
+---
+<Base
+  title="Chat Board"
+  kicker="The Group Chat"
+  heading="The Board"
+  description="The league's public chat board — talk trash, post GIFs, drop images. Everyone sees it."
+>
+  <section class="container section--tight board-wrap">
+    <p class="lede">
+      One shared thread for the whole league. Messages, images, GIFs, links — it all shows up
+      here for everyone. Sign in with GitHub (free) to post; drag an image straight into the box.
+    </p>
+
+    {configured ? (
+      <div class="board-mount panel">
+        <script
+          src="https://giscus.app/client.js"
+          data-repo={g.repo}
+          data-repo-id={g.repoId}
+          data-category={g.category || 'Board'}
+          data-category-id={g.categoryId}
+          data-mapping="specific"
+          data-term="Armchair Quarterbacks — The Board"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="top"
+          data-theme="light"
+          data-lang="en"
+          crossorigin="anonymous"
+          async
+        ></script>
+      </div>
+    ) : (
+      <div class="setup panel">
+        <div class="strip"><span aria-hidden="true">▚</span><span>One-time setup</span></div>
+        <ol class="setup__steps">
+          <li>Push the site to a <strong>public</strong> GitHub repo (you're doing this to deploy anyway).</li>
+          <li>Repo → <strong>Settings → General → Features</strong> → tick <strong>Discussions</strong>.</li>
+          <li>In Discussions, create a category called <strong>Board</strong> (format: “Announcement” so only maintainers open threads, or “Open-ended”).</li>
+          <li>Go to <a href="https://giscus.app" rel="noopener" target="_blank">giscus.app</a>, enter your repo, pick the <strong>Board</strong> category. It hands you a <code>data-repo-id</code> and <code>data-category-id</code>.</li>
+          <li>Paste those into <code>src/data/league-info.json</code> → <code>giscus</code> block, commit. The board goes live here.</li>
+        </ol>
+        <p class="setup__why">
+          This uses <a href="https://giscus.app" rel="noopener" target="_blank">giscus</a> — a free,
+          no-server chat backed by GitHub Discussions. Nothing to host, nothing to pay.
+        </p>
+      </div>
+    )}
+  </section>
+</Base>
+
+<style>
+  .board-wrap { max-width: 820px; }
+  .lede { color: var(--chalk-dim); margin-bottom: 1.5rem; }
+  .board-mount { padding: 1.25rem; min-height: 320px; }
+  .setup { }
+  .setup__steps { list-style: decimal; padding: 1.25rem 1.25rem 0.5rem 2.5rem; display: grid; gap: 0.7rem; color: var(--chalk-dim); }
+  .setup__steps strong { color: var(--chalk); }
+  .setup__steps a { font-weight: 700; }
+  .setup__why { padding: 0 1.25rem 1.25rem; font-size: 0.85rem; color: var(--chalk-faint); }
+  code { font-family: ui-monospace, monospace; color: var(--first-down); font-size: 0.85em; font-weight: 600; }
+</style>

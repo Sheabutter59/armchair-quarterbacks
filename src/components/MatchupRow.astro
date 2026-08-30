@@ -1,0 +1,48 @@
+---
+import { teamById, ME_TEAM_ID } from '../lib/site.js';
+interface Props { game: any; showScore?: boolean; }
+const { game, showScore = true } = Astro.props;
+const home = teamById(game.home?.teamId);
+const away = teamById(game.away?.teamId);
+const played = showScore && (game.winner || (game.home?.score || 0) + (game.away?.score || 0) > 0);
+const homeWon = game.winner === 'home';
+const awayWon = game.winner === 'away';
+const mine = home?.id === ME_TEAM_ID || away?.id === ME_TEAM_ID;
+---
+<div class:list={['mrow', { 'mrow--mine': mine, 'mrow--playoff': game.playoff }]}>
+  <div class:list={['mrow__team', { 'is-win': awayWon, 'is-lose': played && homeWon }]}>
+    <span class="mrow__crest" aria-hidden="true">{away?.initials || '?'}</span>
+    <span class="mrow__name">{away?.name || 'TBD'}</span>
+    {played && <span class="mrow__score readout">{game.away?.score?.toFixed(1)}</span>}
+  </div>
+  <div class="mrow__vs readout">{played ? 'FINAL' : '@'}</div>
+  <div class:list={['mrow__team', { 'is-win': homeWon, 'is-lose': played && awayWon }]}>
+    <span class="mrow__crest" aria-hidden="true">{home?.initials || '?'}</span>
+    <span class="mrow__name">{home?.name || 'TBD'}</span>
+    {played && <span class="mrow__score readout">{game.home?.score?.toFixed(1)}</span>}
+  </div>
+</div>
+<style>
+  .mrow {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1rem; background: var(--turf-line); border: 2px solid var(--hash-mark);
+  }
+  .mrow--mine { border-color: var(--sky-pick); }
+  .mrow--playoff { border-color: var(--penalty-flag); }
+  .mrow__team { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+  .mrow__team:last-child { justify-content: flex-end; text-align: right; flex-direction: row-reverse; }
+  .mrow__crest {
+    flex-shrink: 0; display: grid; place-items: center; width: 30px; height: 30px;
+    font-family: var(--font-mono); font-weight: 700; font-size: 0.6rem; letter-spacing: 0.02em;
+    color: var(--penalty-flag);
+    background: var(--turf-line-2); border: 2px solid var(--pixel-ink);
+  }
+  .mrow__name { font-size: 0.85rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mrow__score { font-size: 1.05rem; font-weight: 600; color: var(--chalk); }
+  .mrow__team.is-win .mrow__name, .mrow__team.is-win .mrow__score { color: var(--first-down); }
+  .mrow__team.is-lose { opacity: 0.55; }
+  .mrow__vs {
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--chalk-faint); padding: 0 0.4rem;
+  }
+</style>

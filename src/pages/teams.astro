@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+import DataStamp from '../components/DataStamp.astro';
+import Icon from '../components/Icon.astro';
+import league from '../data/league.json';
+import { TEAMS, LEAGUE, ME_TEAM_ID, recordStr, withBase } from '../lib/site.js';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const L = (h) => withBase(base, h);
+const teams = [...TEAMS].sort((a, b) => a.name.localeCompare(b.name));
+---
+<Base
+  title="Teams & Owners"
+  kicker="The League"
+  heading="Teams & Owners"
+  description="The ten managers of the Armchair Quarterbacks league."
+>
+  <section class="container section--tight">
+    <p class="lede">
+      Ten managers, one pot, zero mercy. Team names are whatever people set in ESPN —
+      blame them, not us.
+    </p>
+
+    <div class="roster-grid">
+      {teams.map((t) => (
+        <article id={`team-${t.id}`} class:list={['tcard panel', { 'tcard--me': t.id === ME_TEAM_ID }]}>
+          <div class="tcard__head">
+            <span class="tcard__crest">
+              {t.logo
+                ? <img src={t.logo} alt="" width="56" height="56" loading="lazy" />
+                : <span class="tcard__initials">{t.initials}</span>}
+            </span>
+            <div class="tcard__id">
+              <h2 class="tcard__name">{t.name}</h2>
+              <p class="tcard__owner readout">
+                {t.owner}{t.ownerHandle && <span class="tcard__handle"> · @{t.ownerHandle}</span>}
+              </p>
+            </div>
+          </div>
+
+          <dl class="tcard__stats">
+            <div><dt>Record</dt><dd>{LEAGUE.seasonStarted ? recordStr(t.record) : '—'}</dd></div>
+            <div><dt>Points For</dt><dd>{t.record.pointsFor ?? '—'}</dd></div>
+            <div><dt>Abbrev</dt><dd>{t.abbrev}</dd></div>
+          </dl>
+
+          {t.bio && <p class="tcard__bio">{t.bio}</p>}
+
+          <div class="tcard__links">
+            <a href={`${L('rosters')}#team-${t.id}`}><Icon name="roster" size={14} /> Roster</a>
+            <a href={`${L('scoreboard')}`}><Icon name="score" size={14} /> Games</a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <DataStamp iso={league.generatedAt} />
+  </section>
+</Base>
+
+<style>
+  .lede { color: var(--chalk-dim); max-width: 60ch; margin-bottom: 1.5rem; }
+  .roster-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .tcard { padding: 1.1rem; display: flex; flex-direction: column; gap: 0.9rem; scroll-margin-top: 5rem; }
+  .tcard--me { border-color: var(--sky-pick); }
+  .tcard__head { display: flex; gap: 0.85rem; align-items: center; }
+  .tcard__crest {
+    width: 52px; height: 52px; flex-shrink: 0; display: grid; place-items: center;
+    background: var(--turf-line-2); border: 2px solid var(--pixel-ink); overflow: hidden;
+  }
+  .tcard__crest img { width: 100%; height: 100%; object-fit: cover; }
+  .tcard__initials { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; letter-spacing: 0.02em; color: var(--penalty-flag); }
+  .tcard__name { font-size: 1.05rem; line-height: 1.2; }
+  .tcard__owner { font-size: 0.7rem; color: var(--chalk-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; }
+  .tcard__handle { color: var(--chalk-faint); text-transform: none; }
+  .tcard__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; border-block: 1px solid var(--hash-mark); padding-block: 0.75rem; }
+  .tcard__stats dt { font-family: var(--font-mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--chalk-faint); }
+  .tcard__stats dd { font-family: var(--font-mono); font-size: 1rem; color: var(--chalk); font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
+  .tcard__bio { font-size: 0.88rem; color: var(--chalk-dim); }
+  .tcard__links { display: flex; gap: 0.5rem; margin-top: auto; }
+  .tcard__links a {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--chalk-dim); background: var(--turf-line-2); border: 2px solid var(--hash-mark);
+    padding: 0.35rem 0.55rem;
+  }
+  .tcard__links a:hover { color: var(--penalty-flag); text-decoration: none; }
+</style>

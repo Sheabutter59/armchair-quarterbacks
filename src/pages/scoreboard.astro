@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import MatchupRow from '../components/MatchupRow.astro';
+import DataStamp from '../components/DataStamp.astro';
+import league from '../data/league.json';
+import { LEAGUE } from '../lib/site.js';
+
+const weeks = LEAGUE.weeks || league.weeks || [];
+const started = LEAGUE.seasonStarted;
+const current = started ? (LEAGUE.currentWeek || 1) : 1;
+const defaultWeek = Math.min(current, weeks.length || 1);
+---
+<Base
+  title="Scoreboard"
+  kicker="The League"
+  heading="Scoreboard"
+  description="Weekly matchup scores for the Armchair Quarterbacks league."
+>
+  <section class="container section--tight" data-scoreboard>
+    {weeks.length === 0 ? (
+      <div class="panel emptybox"><p>The schedule loads after the draft.</p></div>
+    ) : (
+      <>
+        {!started && (
+          <p class="lede">
+            No scores yet — here's the <strong>Week 1</strong> slate. Live scoring shows up here
+            once games kick off.
+          </p>
+        )}
+
+        <div class="wkpick" role="tablist" aria-label="Week">
+          {weeks.map((w) => (
+            <button
+              class:list={['wkpick__btn', { 'is-active': w.week === defaultWeek }]}
+              data-week={w.week}
+              role="tab"
+              aria-selected={w.week === defaultWeek ? 'true' : 'false'}
+            >{w.week}</button>
+          ))}
+        </div>
+
+        {weeks.map((w) => (
+          <div class="wk" data-wkpanel={w.week} hidden={w.week !== defaultWeek}>
+            <div class="wk__head">
+              <span class="pixel wk__title">Week {w.week}</span>
+              <span class="chip">{w.status === 'final' ? 'Final' : w.status === 'live' ? 'Live' : 'Upcoming'}</span>
+            </div>
+            <div class="wk__games">
+              {w.games.map((g) => <MatchupRow game={g} />)}
+            </div>
+          </div>
+        ))}
+      </>
+    )}
+    <DataStamp iso={league.generatedAt} />
+  </section>
+</Base>
+
+<script>
+  for (const root of document.querySelectorAll('[data-scoreboard]')) {
+    const btns = root.querySelectorAll('[data-week]');
+    const panels = root.querySelectorAll('[data-wkpanel]');
+    btns.forEach((b) =>
+      b.addEventListener('click', () => {
+        btns.forEach((x) => {
+          const on = x === b;
+          x.classList.toggle('is-active', on);
+          x.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        panels.forEach((p) => (p.hidden = p.dataset.wkpanel !== b.dataset.week));
+      }),
+    );
+  }
+</script>
+
+<style>
+  .lede { color: var(--chalk-dim); margin-bottom: 1.25rem; }
+  .lede strong { color: var(--penalty-flag); }
+  .wkpick { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1.25rem; }
+  .wkpick__btn {
+    font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600;
+    width: 2.4rem; height: 2.4rem; background: var(--turf-line); color: var(--chalk-dim);
+    border: 2px solid var(--pixel-ink); cursor: pointer;
+  }
+  .wkpick__btn.is-active { background: var(--penalty-flag); color: var(--pixel-ink); }
+  .wk__head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem; }
+  .wk__title { font-size: 0.8rem; color: var(--penalty-flag); }
+  .wk__games { display: grid; gap: 0.5rem; }
+  .emptybox { padding: 1.5rem; color: var(--chalk-dim); }
+</style>

@@ -1,0 +1,148 @@
+---
+import Base from '../layouts/Base.astro';
+import DataStamp from '../components/DataStamp.astro';
+import rankings from '../data/rankings.json';
+
+const POSITIONS = ['QB', 'RB', 'WR', 'TE'];
+const data = rankings.positions || {};
+const hasData = POSITIONS.some((p) => (data[p] || []).length > 0);
+
+// group each position's rows by tier for rendering
+function grouped(pos) {
+  const rows = data[pos] || [];
+  const out = [];
+  for (const r of rows) {
+    const last = out[out.length - 1];
+    if (last && last.tier === r.tier) last.rows.push(r);
+    else out.push({ tier: r.tier, rows: [r] });
+  }
+  return out;
+}
+---
+<Base
+  title="Player Rankings"
+  kicker="Draft Prep"
+  heading="Positional Rankings"
+  description="Tiered PPR rankings for QB, RB, WR and TE — built from ESPN's season projections."
+>
+  <section class="container section--tight">
+    <p class="lede">
+      Rest-of-season <strong>PPR</strong> value at each position, sorted by projected points and
+      broken into tiers where the drop-off is real. Sourced from ESPN projections — argue with
+      them, not us.
+    </p>
+
+    {hasData ? (
+      <div class="ranks" data-ranks>
+        <div class="ranks__tabs" role="tablist" aria-label="Position">
+          {POSITIONS.map((p, i) => (
+            <button
+              class:list={['ranks__tab', { 'is-active': i === 0 }]}
+              role="tab"
+              aria-selected={i === 0 ? 'true' : 'false'}
+              data-tab={p}
+            >{p}<span class="ranks__count">{(data[p] || []).length}</span></button>
+          ))}
+        </div>
+
+        {POSITIONS.map((p, i) => (
+          <div class="ranks__panel" data-panel={p} hidden={i !== 0}>
+            {grouped(p).map((g) => (
+              <div class="tier">
+                <div class="tier__label"><span class="pixel">Tier {g.tier}</span></div>
+                <ol class="tier__list">
+                  {g.rows.map((r) => (
+                    <li class="prow">
+                      <span class="prow__rank readout">{r.rank}</span>
+                      <span class="prow__name">
+                        {r.name}
+                        {r.injury && <span class="prow__inj" title={r.injury}>{r.injury[0]}</span>}
+                      </span>
+                      <span class="prow__team chip">{r.team}</span>
+                      <span class="prow__proj readout">{r.proj ?? '—'}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="panel emptybox">
+        <p>Rankings load once the projection feed runs. Check back after the next data refresh.</p>
+      </div>
+    )}
+
+    <p class="legend readout">
+      <span class="legend__k">RANK</span> position rank ·
+      <span class="legend__k">PROJ</span> projected PPR points (season) ·
+      <span class="legend__k">Q / O / D</span> questionable / out / doubtful
+    </p>
+    <DataStamp iso={rankings.generatedAt} source="ESPN projections" />
+  </section>
+</Base>
+
+<script>
+  for (const root of document.querySelectorAll('[data-ranks]')) {
+    const tabs = root.querySelectorAll('[data-tab]');
+    const panels = root.querySelectorAll('[data-panel]');
+    tabs.forEach((tab) =>
+      tab.addEventListener('click', () => {
+        const pos = tab.dataset.tab;
+        tabs.forEach((t) => {
+          const on = t === tab;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        panels.forEach((p) => (p.hidden = p.dataset.panel !== pos));
+      }),
+    );
+  }
+</script>
+
+<style>
+  .lede { color: var(--chalk-dim); max-width: 62ch; margin-bottom: 1.5rem; }
+  .lede strong { color: var(--penalty-flag); }
+
+  .ranks__tabs { display: flex; gap: 0.3rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .ranks__tab {
+    font-family: var(--font-pixel); font-size: 0.7rem;
+    padding: 0.7rem 0.9rem; background: var(--turf-line); color: var(--chalk-dim);
+    border: var(--border-nes); box-shadow: var(--shadow-nes); cursor: pointer;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .ranks__tab.is-active { background: var(--penalty-flag); color: var(--pixel-ink); }
+  .ranks__count { font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.7; }
+
+  .tier { margin-bottom: 1.1rem; border: var(--border-nes); background: var(--turf-line); }
+  .tier__label {
+    background: var(--pixel-ink); padding: 0.4rem 0.75rem;
+  }
+  .tier__label .pixel { font-size: 0.6rem; color: var(--penalty-flag); }
+  .tier__list { list-style: none; }
+  .prow {
+    display: grid; grid-template-columns: 2.2rem 1fr auto auto; gap: 0.75rem;
+    align-items: center; padding: 0.55rem 0.85rem; border-bottom: 1px solid var(--hash-mark);
+  }
+  .prow:last-child { border-bottom: 0; }
+  .prow__rank { color: var(--chalk-dim); font-size: 0.85rem; text-align: right; }
+  .prow__name { font-weight: 500; }
+  .prow__inj {
+    display: inline-grid; place-items: center; width: 1.1rem; height: 1.1rem; margin-left: 0.4rem;
+    font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700;
+    background: var(--blitz-red); color: var(--chalk); border: 1px solid var(--pixel-ink);
+    vertical-align: middle;
+  }
+  .prow__team { font-size: 0.62rem; }
+  .prow__proj { color: var(--penalty-flag); font-weight: 600; min-width: 3.2rem; text-align: right; }
+
+  .emptybox { padding: 1.5rem; color: var(--chalk-dim); }
+  .legend { margin-top: 1.25rem; color: var(--chalk-faint); font-size: 0.68rem; line-height: 1.9; }
+  .legend__k { color: var(--chalk-dim); font-weight: 600; }
+
+  @media (max-width: 460px) {
+    .prow { grid-template-columns: 1.8rem 1fr auto; }
+    .prow__team { display: none; }
+  }
+</style>

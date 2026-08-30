@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import EmptyState from '../components/EmptyState.astro';
+import DataStamp from '../components/DataStamp.astro';
+import top from '../data/top-players.json';
+
+const players = top.players || [];
+const medal = ['🥇', '🥈', '🥉'];
+---
+<Base
+  title="Top Scorers"
+  kicker="Around the League"
+  heading="Top 10 Fantasy Scorers of the Week"
+  description="The ten highest-scoring fantasy players from the most recent NFL week (PPR)."
+>
+  <section class="container section--tight tp-wrap">
+    <p class="lede">
+      The week's biggest fantasy performances, PPR scoring — whether or not anyone in the league
+      actually had them rostered. Refreshes <strong>Monday, Tuesday and Friday</strong>.
+    </p>
+
+    {players.length ? (
+      <>
+        <div class="strip tp-strip"><span aria-hidden="true">▚</span><span>Week {top.week}</span></div>
+        <ol class="tp-list">
+          {players.map((p, i) => (
+            <li class:list={['tp-row', { 'tp-row--top': i < 3 }]}>
+              <span class="tp-rank">{medal[i] || i + 1}</span>
+              <span class="tp-name">{p.name}</span>
+              <span class="tp-meta chip">{p.pos} · {p.team}</span>
+              <span class="tp-pts readout">{p.points.toFixed(1)}</span>
+            </li>
+          ))}
+        </ol>
+        <DataStamp iso={top.generatedAt} source="ESPN" />
+      </>
+    ) : (
+      <EmptyState icon="star" title={top.week ? 'Week not scored yet' : 'Season not started'}>
+        {top.note || 'The top-10 board fills in after the first NFL week is in the books, then updates every Monday, Tuesday and Friday.'}
+      </EmptyState>
+    )}
+  </section>
+</Base>
+
+<style>
+  .tp-wrap { max-width: 640px; }
+  .lede { color: var(--chalk-dim); margin-bottom: 1.5rem; }
+  .lede strong { color: var(--penalty-flag); }
+  .tp-strip { justify-content: flex-start; margin-bottom: 0.75rem; }
+  .tp-list { list-style: none; display: grid; gap: 0.5rem; }
+  .tp-row {
+    display: grid; grid-template-columns: 2.4rem 1fr auto auto; gap: 0.75rem; align-items: center;
+    padding: 0.7rem 1rem; background: var(--turf-line); border: 2px solid var(--hash-mark);
+  }
+  .tp-row--top { border-color: var(--penalty-flag); }
+  .tp-rank { font-weight: 900; font-size: 1rem; text-align: center; color: var(--chalk-dim); }
+  .tp-row--top .tp-rank { font-size: 1.2rem; }
+  .tp-name { font-weight: 700; }
+  .tp-meta { font-size: 0.6rem; }
+  .tp-pts { font-weight: 800; font-size: 1.15rem; color: var(--penalty-flag); }
+  @media (max-width: 440px) { .tp-row { grid-template-columns: 2rem 1fr auto; } .tp-meta { display: none; } }
+</style>

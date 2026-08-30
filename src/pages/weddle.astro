@@ -1,0 +1,367 @@
+---
+import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base
+  title="Weddle"
+  kicker="Daily Game"
+  heading="Weddle"
+  description="Guess the mystery NFL player in a handful of tries. New puzzle every day — Classic and Hard."
+>
+  <section class="container section--tight w-wrap" data-weddle data-base={base}>
+    <p class="lede">
+      Guess the mystery <strong>offensive NFL player</strong>. Each guess reveals how close you are
+      on team, division, position, age, height, weight, number and experience.
+      Green = exact · Yellow = close · a new player drops every day.
+    </p>
+
+    <div class="w-modes" role="tablist" aria-label="Difficulty">
+      <button class="w-mode is-active" data-mode="classic" role="tab">Classic <span>· 8 guesses</span></button>
+      <button class="w-mode" data-mode="hard" role="tab">Hard <span>· 6 guesses, no arrows</span></button>
+    </div>
+
+    <div class="w-game" data-game hidden>
+      <div class="w-guessbar">
+        <div class="w-inputwrap">
+          <input class="w-input" data-input type="text" autocomplete="off" spellcheck="false"
+                 placeholder="Type a player's name…" aria-label="Guess a player" />
+          <ul class="w-suggest" data-suggest hidden></ul>
+        </div>
+        <button class="btn w-submit" data-submit>Guess</button>
+      </div>
+      <p class="w-count readout"><span data-remaining></span> guesses left</p>
+
+      <div class="w-board" data-board></div>
+
+      <div class="w-result" data-result hidden>
+        <p class="w-result__headline" data-result-headline></p>
+        <p class="w-result__answer" data-result-answer></p>
+        <p class="w-result__streak readout" data-result-streak></p>
+        <p class="w-result__next readout">Next player in <span data-next></span></p>
+      </div>
+    </div>
+
+    <p class="w-loading" data-loading>Loading today's player…</p>
+  </section>
+</Base>
+
+<script>
+  const root = document.querySelector('[data-weddle]');
+  const BASE = root.dataset.base || '';
+  const FIELDS = [
+    { key: 'team',   label: 'Team' },
+    { key: 'div',    label: 'Division' },
+    { key: 'pos',    label: 'Pos' },
+    { key: 'age',    label: 'Age',    num: true, near: { classic: 2, hard: 1 } },
+    { key: 'ht',     label: 'Height', num: true, near: { classic: 2, hard: 1 }, fmt: (v) => `${Math.floor(v / 12)}'${v % 12}"` },
+    { key: 'wt',     label: 'Weight', num: true, near: { classic: 15, hard: 10 }, fmt: (v) => `${v}` },
+    { key: 'num',    label: 'No.',    num: true, near: { classic: 5, hard: 3 } },
+    { key: 'exp',    label: 'Exp',    num: true, near: { classic: 2, hard: 1 }, fmt: (v) => (v === 0 ? 'R' : `${v}y`) },
+  ];
+  const MAX = { classic: 8, hard: 6 };
+
+  let players = [], byName = new Map(), mode = 'classic', state = null;
+
+  const el = (s) => root.querySelector(s);
+  const dayString = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  };
+  function hash(str) {
+    let h = 2166136261;
+    for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+
+  function pickAnswer() {
+    const pool = mode === 'classic' ? players.filter((p) => p.notable) : players;
+    const idx = hash(dayString() + '|' + mode) % pool.length;
+    return pool[idx];
+  }
+
+  function loadState() {
+    const key = `weddle:${mode}:${dayString()}`;
+    try {
+      const s = JSON.parse(localStorage.getItem(key) || 'null');
+      if (s) return s;
+    } catch {}
+    return { guesses: [], done: false, won: false };
+  }
+  function saveState() {
+    try { localStorage.setItem(`weddle:${mode}:${dayString()}`, JSON.stringify(state)); } catch {}
+  }
+  function streak() {
+    try { return JSON.parse(localStorage.getItem('weddle:streak') || '{"n":0,"last":""}'); }
+    catch { return { n: 0, last: '' }; }
+  }
+  function bumpStreak(won) {
+    const s = streak();
+    const today = dayString();
+    if (s.last === today) return s;            // already counted today
+    const next = won ? { n: s.n + 1, last: today } : { n: 0, last: today };
+    try { localStorage.setItem('weddle:streak', JSON.stringify(next)); } catch {}
+    return next;
+  }
+
+  function normalize(p) {
+    return { name: p[0], team: p[1], conf: p[2], div: p[3], pos: p[4], num: p[5],
+             ht: p[6], wt: p[7], age: p[8], exp: p[9], college: p[10], notable: p[11] === 1 };
+  }
+
+  function compare(guess, answer, field) {
+    if (!field.num) {
+      if (field.key === 'div') {
+        if (guess.conf === answer.conf && guess.div === answer.div) return { s: 'hit' };
+        if (guess.conf === answer.conf) return { s: 'near' };
+        return { s: 'miss' };
+      }
+      return { s: guess[field.key] === answer[field.key] ? 'hit' : 'miss' };
+    }
+    const g = guess[field.key] ?? 0, a = answer[field.key] ?? 0;
+    const near = field.near[mode];
+    let s = 'miss';
+    if (g === a) s = 'hit';
+    else if (Math.abs(g - a) <= near) s = 'near';
+    const arrow = mode === 'classic' && g !== a ? (a > g ? '↑' : '↓') : '';
+    return { s, arrow };
+  }
+
+  function tileText(p, field) {
+    const raw = field.key === 'div' ? `${p.conf} ${p.div}` : p[field.key];
+    return field.fmt ? field.fmt(raw) : String(raw ?? '—');
+  }
+
+  function render() {
+    const boardEl = el('[data-board]');
+    boardEl.innerHTML = '';
+    const answer = pickAnswer();
+
+    // header row — only once there's a guess to align to
+    if (state.guesses.length) {
+      const head = document.createElement('div');
+      head.className = 'w-row w-row--head';
+      head.innerHTML = `<span class="w-player">Player</span>` +
+        FIELDS.map((f) => `<span>${f.label}</span>`).join('');
+      boardEl.appendChild(head);
+    }
+
+    for (const name of state.guesses) {
+      const g = byName.get(name.toLowerCase());
+      const row = document.createElement('div');
+      row.className = 'w-row';
+      row.innerHTML = `<span class="w-player">${g.name}<small>${g.team}</small></span>` +
+        FIELDS.map((f) => {
+          const r = compare(g, answer, f);
+          return `<span class="w-tile is-${r.s}">${tileText(g, f)}${r.arrow ? `<i>${r.arrow}</i>` : ''}</span>`;
+        }).join('');
+      boardEl.appendChild(row);
+    }
+
+    const remaining = MAX[mode] - state.guesses.length;
+    el('[data-remaining]').textContent = Math.max(0, remaining);
+
+    if (state.done) {
+      root.querySelector('.w-guessbar').style.display = 'none';
+      root.querySelector('.w-count').style.display = 'none';
+      const res = el('[data-result]');
+      res.hidden = false;
+      el('[data-result-headline]').textContent = state.won
+        ? `Got it in ${state.guesses.length}! 🏈`
+        : 'Out of guesses.';
+      el('[data-result-headline]').classList.toggle('is-win', state.won);
+      el('[data-result-answer]').textContent = `Today's ${mode} player: ${answer.name} — ${answer.pos}, ${answer.team} (${answer.college})`;
+      const s = streak();
+      el('[data-result-streak]').textContent = s.n > 1 ? `${s.n}-day streak 🔥` : '';
+      startNextTimer();
+    } else {
+      root.querySelector('.w-guessbar').style.display = '';
+      root.querySelector('.w-count').style.display = '';
+      el('[data-result]').hidden = true;
+    }
+  }
+
+  function submitGuess(name) {
+    if (state.done) return;
+    const g = byName.get(name.trim().toLowerCase());
+    if (!g) { flashInput(); return; }
+    if (state.guesses.some((x) => x.toLowerCase() === g.name.toLowerCase())) { flashInput(); return; }
+    state.guesses.push(g.name);
+    const answer = pickAnswer();
+    if (g.name.toLowerCase() === answer.name.toLowerCase()) { state.done = true; state.won = true; bumpStreak(true); }
+    else if (state.guesses.length >= MAX[mode]) { state.done = true; state.won = false; bumpStreak(false); }
+    saveState();
+    el('[data-input]').value = '';
+    hideSuggest();
+    render();
+  }
+
+  function flashInput() {
+    const i = el('[data-input]');
+    i.classList.add('is-bad');
+    setTimeout(() => i.classList.remove('is-bad'), 400);
+  }
+
+  // ---- autocomplete ----
+  function showSuggest(q) {
+    const list = el('[data-suggest]');
+    q = q.trim().toLowerCase();
+    if (q.length < 2) { hideSuggest(); return; }
+    const picked = new Set(state.guesses.map((x) => x.toLowerCase()));
+    const starts = [], contains = [];
+    for (const p of players) {
+      const n = p.name.toLowerCase();
+      if (picked.has(n) || !n.includes(q)) continue;
+      (n.startsWith(q) ? starts : contains).push(p);
+    }
+    const matches = [...starts, ...contains].slice(0, 8);
+    if (!matches.length) { hideSuggest(); return; }
+    list.innerHTML = matches.map((p) =>
+      `<li data-pick="${p.name}"><strong>${p.name}</strong> <span>${p.pos} · ${p.team}</span></li>`).join('');
+    list.hidden = false;
+  }
+  function hideSuggest() { el('[data-suggest]').hidden = true; }
+
+  function startNextTimer() {
+    const tick = () => {
+      const now = new Date();
+      const mid = new Date(now); mid.setHours(24, 0, 0, 0);
+      let s = Math.floor((mid - now) / 1000);
+      const h = String(Math.floor(s / 3600)).padStart(2, '0');
+      const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+      s = String(s % 60).padStart(2, '0');
+      const n = el('[data-next]');
+      if (n) n.textContent = `${h}:${m}:${s}`;
+    };
+    tick();
+    clearInterval(root._nextTimer);
+    root._nextTimer = setInterval(tick, 1000);
+  }
+
+  function setMode(m) {
+    mode = m;
+    root.querySelectorAll('[data-mode]').forEach((b) => b.classList.toggle('is-active', b.dataset.mode === m));
+    try { localStorage.setItem('weddle:mode', m); } catch {}
+    state = loadState();
+    render();
+  }
+
+  async function init() {
+    let raw;
+    try {
+      const res = await fetch(`${BASE}/weddle-players.json`, { cache: 'no-cache' });
+      raw = await res.json();
+    } catch {
+      el('[data-loading]').textContent = 'Could not load the player list. Try again later.';
+      return;
+    }
+    players = (raw.p || []).map(normalize);
+    byName = new Map(players.map((p) => [p.name.toLowerCase(), p]));
+
+    el('[data-loading]').hidden = true;
+    el('[data-game]').hidden = false;
+
+    root.querySelectorAll('[data-mode]').forEach((b) =>
+      b.addEventListener('click', () => setMode(b.dataset.mode)));
+    let saved = 'classic';
+    try { saved = localStorage.getItem('weddle:mode') || 'classic'; } catch {}
+    setMode(saved === 'hard' ? 'hard' : 'classic');
+
+    const input = el('[data-input]');
+    input.addEventListener('input', () => showSuggest(input.value));
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const first = el('[data-suggest]:not([hidden]) [data-pick]');
+        submitGuess(first ? first.dataset.pick : input.value);
+      }
+      if (e.key === 'Escape') hideSuggest();
+    });
+    el('[data-submit]').addEventListener('click', () => submitGuess(input.value));
+    el('[data-suggest]').addEventListener('click', (e) => {
+      const li = e.target.closest('[data-pick]');
+      if (li) submitGuess(li.dataset.pick);
+    });
+    document.addEventListener('click', (e) => { if (!e.target.closest('.w-inputwrap')) hideSuggest(); });
+  }
+
+  init();
+</script>
+
+<style>
+  .w-wrap { max-width: 760px; }
+  .lede { color: var(--chalk-dim); margin-bottom: 1.25rem; }
+  .lede strong { color: var(--penalty-flag); }
+
+  .w-modes { display: flex; gap: 0.4rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .w-mode {
+    font-family: var(--font-sans); font-weight: 800; font-size: 0.78rem; text-transform: uppercase;
+    letter-spacing: 0.04em; padding: 0.6rem 0.9rem; cursor: pointer;
+    background: var(--turf-line); color: var(--chalk-dim);
+    border: var(--border-nes); box-shadow: var(--shadow-nes);
+  }
+  .w-mode span { font-weight: 500; text-transform: none; letter-spacing: 0; opacity: 0.75; }
+  .w-mode.is-active { background: var(--penalty-flag); color: var(--pixel-ink); }
+
+  .w-guessbar { display: flex; gap: 0.5rem; align-items: stretch; }
+  .w-inputwrap { position: relative; flex: 1; }
+  .w-input {
+    width: 100%; font-family: var(--font-sans); font-size: 1rem; font-weight: 600;
+    padding: 0.75rem 0.85rem; border: var(--border-nes); background: var(--turf-line); color: var(--chalk);
+  }
+  .w-input:focus { outline: 3px solid var(--penalty-flag); outline-offset: 1px; }
+  .w-input.is-bad { animation: shake 0.35s; border-color: var(--blitz-red); }
+  @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  .w-submit { flex-shrink: 0; }
+
+  .w-suggest {
+    position: absolute; top: calc(100% + 3px); left: 0; right: 0; z-index: 20;
+    list-style: none; background: var(--turf-line); border: var(--border-nes);
+    box-shadow: var(--shadow-nes); max-height: 280px; overflow-y: auto;
+  }
+  .w-suggest li {
+    display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline;
+    padding: 0.55rem 0.75rem; cursor: pointer; border-bottom: 1px solid var(--hash-mark);
+  }
+  .w-suggest li:hover { background: var(--turf-line-2); }
+  .w-suggest li span { font-size: 0.72rem; color: var(--chalk-faint); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .w-count { margin: 0.75rem 0 1rem; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--chalk-faint); }
+
+  .w-result { margin-top: 1.5rem; padding: 1.25rem; background: var(--turf-line); border: var(--border-nes); box-shadow: var(--shadow-nes); }
+  .w-result__headline { font-family: var(--font-display); font-weight: 900; font-size: 1.3rem; text-transform: uppercase; }
+  .w-result__headline.is-win { color: var(--first-down); }
+  .w-result__answer { margin-top: 0.5rem; color: var(--chalk-dim); }
+  .w-result__streak { margin-top: 0.5rem; color: var(--penalty-flag); font-weight: 700; }
+  .w-result__next { margin-top: 0.35rem; color: var(--chalk-faint); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .w-loading { color: var(--chalk-dim); padding: 1rem 0; }
+</style>
+
+<style is:global>
+  /* board rows are built with innerHTML at runtime, so these must be un-scoped */
+  [data-weddle] .w-board { display: grid; gap: 0.35rem; overflow-x: auto; padding-bottom: 0.25rem; }
+  [data-weddle] .w-row {
+    display: grid; grid-template-columns: 8.5rem repeat(8, minmax(3.1rem, 1fr));
+    gap: 0.35rem; min-width: 560px;
+  }
+  [data-weddle] .w-row--head span {
+    font-size: 0.56rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--chalk-faint); text-align: center; padding-bottom: 0.1rem;
+  }
+  [data-weddle] .w-row--head .w-player { text-align: left; background: none; border: 0; padding-left: 0; }
+  [data-weddle] .w-player {
+    display: flex; flex-direction: column; justify-content: center; padding: 0.3rem 0.5rem;
+    font-weight: 700; font-size: 0.8rem; background: var(--turf-line); border: 2px solid var(--pixel-ink);
+  }
+  [data-weddle] .w-player small { font-weight: 500; font-size: 0.6rem; color: var(--chalk-faint); }
+  [data-weddle] .w-tile {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 0.3rem 0.15rem; min-height: 3rem; text-align: center; line-height: 1.15;
+    font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.72rem;
+    border: 2px solid var(--pixel-ink); color: #f4ecd6;
+  }
+  [data-weddle] .w-tile i { font-style: normal; font-size: 0.85rem; line-height: 1; }
+  [data-weddle] .w-tile.is-hit  { background: #12a35c; }
+  [data-weddle] .w-tile.is-near { background: #e0a02b; color: #1c1508; }
+  [data-weddle] .w-tile.is-miss { background: #47474f; }
+</style>

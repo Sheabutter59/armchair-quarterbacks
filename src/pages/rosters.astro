@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import EmptyState from '../components/EmptyState.astro';
+import DataStamp from '../components/DataStamp.astro';
+import TeamTag from '../components/TeamTag.astro';
+import league from '../data/league.json';
+import { TEAMS, LEAGUE, teamById, fmtDateTime, ME_TEAM_ID } from '../lib/site.js';
+
+const draft = LEAGUE.draft || {};
+const anyRosters = TEAMS.some((t) => (t.roster || []).length > 0);
+const order = (draft.order || []).map((id) => teamById(id)).filter(Boolean);
+---
+<Base
+  title="Rosters"
+  kicker="The League"
+  heading="Rosters"
+  description="Every team's roster in the Armchair Quarterbacks league."
+>
+  <section class="container section--tight">
+    {anyRosters ? (
+      <div class="rosters">
+        {TEAMS.map((t) => (
+          <article id={`team-${t.id}`} class:list={['rteam panel', { 'rteam--me': t.id === ME_TEAM_ID }]}>
+            <div class="strip rteam__strip">
+              <span aria-hidden="true">▚</span><span>{t.name}</span>
+              <span class="rteam__owner">{t.owner}</span>
+            </div>
+            <ol class="rteam__list">
+              {t.roster.map((p) => (
+                <li class:list={['pl', { 'pl--bench': !p.starter }]}>
+                  <span class="pl__slot readout">{p.slot}</span>
+                  <span class="pl__name">{p.name}{p.injury && <span class="pl__inj">{p.injury[0]}</span>}</span>
+                  <span class="pl__pos chip">{p.pos}</span>
+                  <span class="pl__team readout">{p.proTeam}</span>
+                </li>
+              ))}
+            </ol>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <>
+        <EmptyState icon="roster" title="Rosters drop after the draft">
+          The snake draft is {draft.date ? <>{fmtDateTime(draft.date)}</> : 'coming soon'}. Once
+          it's done, every roster shows up here — starters, bench, and the guy you reached on in
+          round 3.
+        </EmptyState>
+
+        {order.length > 0 && (
+          <div class="dorder">
+            <div class="strip dorder__strip"><span aria-hidden="true">▚</span><span>Round 1 Draft Order</span></div>
+            <ol class="dorder__list">
+              {order.map((t, i) => (
+                <li class="dorder__row">
+                  <span class="dorder__pick readout">{String(i + 1).padStart(2, '0')}</span>
+                  <TeamTag team={t} size="sm" showOwner={true} />
+                </li>
+              ))}
+            </ol>
+            <p class="dorder__note readout">
+              {draft.type === 'SNAKE' ? 'Snake — order reverses every round.' : draft.type}
+              {draft.secondsPerPick ? ` · ${draft.secondsPerPick}s per pick.` : ''}
+            </p>
+          </div>
+        )}
+      </>
+    )}
+    <DataStamp iso={league.generatedAt} />
+  </section>
+</Base>
+
+<style>
+  .rosters { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); align-items: start; }
+  .rteam { scroll-margin-top: 5rem; }
+  .rteam--me { border-color: var(--sky-pick); }
+  .rteam__strip { justify-content: flex-start; }
+  .rteam__owner { margin-left: auto; font-size: 0.55rem; color: var(--chalk-dim); }
+  .rteam__list { list-style: none; }
+  .pl {
+    display: grid; grid-template-columns: 3rem 1fr auto auto; gap: 0.6rem; align-items: center;
+    padding: 0.5rem 0.85rem; border-bottom: 1px solid var(--hash-mark); font-size: 0.85rem;
+  }
+  .pl:last-child { border-bottom: 0; }
+  .pl--bench { opacity: 0.62; }
+  .pl__slot { font-size: 0.66rem; color: var(--chalk-faint); }
+  .pl__name { font-weight: 500; }
+  .pl__inj {
+    display: inline-grid; place-items: center; width: 1rem; height: 1rem; margin-left: 0.35rem;
+    font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700;
+    background: var(--blitz-red); color: var(--chalk); vertical-align: middle;
+  }
+  .pl__pos { font-size: 0.58rem; }
+  .pl__team { font-size: 0.68rem; color: var(--chalk-dim); }
+
+  .dorder { margin-top: 1.5rem; border: var(--border-nes); background: var(--turf-line); max-width: 460px; }
+  .dorder__strip { justify-content: flex-start; }
+  .dorder__list { list-style: none; }
+  .dorder__row { display: flex; align-items: center; gap: 0.85rem; padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--hash-mark); }
+  .dorder__row:last-child { border-bottom: 0; }
+  .dorder__pick { color: var(--penalty-flag); width: 1.8rem; }
+  .dorder__note { padding: 0.75rem 0.9rem; color: var(--chalk-faint); border-top: 1px solid var(--hash-mark); }
+</style>

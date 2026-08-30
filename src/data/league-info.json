@@ -1,0 +1,70 @@
+{
+  "_comment": "Static league facts, money, and rules. Hand-authored — edit freely.",
+  "timezone": "America/Chicago",
+  "timezoneLabel": "CT",
+  "espnLeagueUrl": "https://fantasy.espn.com/football/league?leagueId=1670450262",
+  "espnLeagueId": "1670450262",
+  "seasonKickoff": "2026-09-10T19:20:00-05:00",
+
+  "_setup_comment": "Fill these in after creating the GitHub repo. `repo` powers meme submissions; the `giscus` block powers the chat board (see README > Chat board setup).",
+  "repo": "your-username/armchair-quarterbacks",
+  "giscus": {
+    "repo": "your-username/armchair-quarterbacks",
+    "repoId": "",
+    "category": "Board",
+    "categoryId": ""
+  },
+
+  "money": {
+    "buyIn": 20,
+    "currency": "USD",
+    "potNote": "10 teams x $20 = $200 pot.",
+    "payouts": [
+      { "place": "1st",  "amount": 120, "label": "League Champion" },
+      { "place": "2nd",  "amount": 60,  "label": "Runner-up" },
+      { "place": "3rd",  "amount": 20,  "label": "Buy-in refunded" }
+    ],
+    "penalties": [
+      { "label": "Last place", "detail": "Punishment TBD by the group chat. Traditionally humiliating." }
+    ]
+  },
+
+  "format": {
+    "teams": 10,
+    "scoring": "PPR (1.0 per reception)",
+    "playoffTeams": 4,
+    "regularSeasonWeeks": 13,
+    "playoffWeeks": "14-17",
+    "seedingRule": "Playoff seeding is by TOTAL POINTS SCORED across the regular season - not head-to-head record. Score every week or get left home.",
+    "lineup": ["QB", "RB", "RB", "WR", "WR", "TE", "FLEX (RB/WR/TE)", "D/ST", "K"],
+    "bench": 7,
+    "ir": 1
+  },
+
+  "rules": [
+    {
+      "title": "The Money",
+      "body": "Buy-in is $20, due before the draft. No pay, no play - your roster gets auto-drafted and benched until you settle up. Champion takes $120, runner-up $60, third place gets their $20 back. Everyone else funds the trophy."
+    },
+    {
+      "title": "Playoff Seeding",
+      "body": "Top 4 teams make the playoffs, seeded by total points scored - not record. A 7-6 team that piled up points can outseed a 9-4 team that squeaked by. The lesson: there is no such thing as a meaningless Week 11."
+    },
+    {
+      "title": "Roster & Lineups",
+      "body": "Standard PPR lineup: QB, 2x RB, 2x WR, TE, FLEX, D/ST, K, plus 7 bench and 1 IR slot. Set your lineup. Starting a player on bye is a personal problem and excellent group-chat content."
+    },
+    {
+      "title": "Waivers & Trades",
+      "body": "Waivers run on the league's default ESPN schedule. All trades are subject to a league vote for collusion / lopsidedness - veto power exists but is meant for genuinely broken deals, not for salt."
+    },
+    {
+      "title": "Activity",
+      "body": "Managers are expected to set lineups and stay engaged all season. Repeated abandoned lineups in a season you're eliminated from is grounds for replacement next year."
+    },
+    {
+      "title": "Last Place",
+      "body": "The team that finishes 10th receives a punishment determined by league vote. It should be time-boxed, legal, safe, and thoroughly documented for the site."
+    }
+  ]
+}

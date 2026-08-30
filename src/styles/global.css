@@ -1,0 +1,267 @@
+/* ============================================================
+   ARMCHAIR QUARTERBACKS — design system
+   Bold-poster UI: a saturated mint field, big black offset
+   shadows, flame-orange as the brand pop, violet + emerald +
+   red as accents. Geometric sans throughout (Gotham-style).
+   ============================================================ */
+
+@import '@fontsource/montserrat/400.css';
+@import '@fontsource/montserrat/500.css';
+@import '@fontsource/montserrat/600.css';
+@import '@fontsource/montserrat/700.css';
+@import '@fontsource/montserrat/800.css';
+@import '@fontsource/montserrat/900.css';
+
+:root {
+  /* --- surfaces: cream everywhere (the draft-clock cream), on a low-poly canvas --- */
+  --cream:         #f4ecd6;   /* the one light tone — matches the countdown clock */
+  --end-zone:      var(--cream);  /* nav / tabbar / pagehead */
+  --turf-line:     var(--cream);  /* card surface */
+  --turf-line-2:   #e7ddbf;   /* elevated / hover surface — a shade deeper */
+  --hash-mark:     #cabd97;   /* borders between rows, muted */
+
+  --chalk:         #14100a;   /* primary text, near-black */
+  --chalk-dim:     #4a4436;   /* secondary text */
+  --chalk-faint:   #7a715c;   /* tertiary / disabled */
+
+  /* --- accents --- */
+  --first-down:    #0a7a4d;   /* deep emerald — wins, gains, "W", positive */
+  --penalty-flag:  #12b6ab;   /* teal — the brand accent: logo, kickers, trophies, key numbers, CTAs */
+  --sky-pick:      #6a34d6;   /* violet — links, "your team", playful accents */
+  --blitz-red:     #d81a1a;   /* red — losses, alerts, "L", the sacko */
+  --blood:         #8f0000;   /* deep red — gradient mid */
+  --pixel-ink:     #05130b;   /* the hard black outline + shadow on everything */
+  --on-ink:        var(--cream);  /* text that sits on a black bar / pill */
+
+  /* black -> red drop, straight off the palette board */
+  --losing-gradient: linear-gradient(180deg, #05130b 0%, #360000 34%, #8f0000 68%, #ff1c1c 100%);
+
+  /* --- type: geometric sans, Gotham-style (Montserrat as the licensed-free stand-in) --- */
+  --font-sans:    'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Montserrat', system-ui, sans-serif;   /* heavy weights for headings / wordmark */
+  --font-mono:    'Montserrat', ui-monospace, monospace;  /* kept as an alias; use .readout for tabular figures */
+  --font-pixel:   var(--font-display);                     /* legacy alias */
+
+  /* --- structure: bigger, blacker poster shadows --- */
+  --shadow-nes:    5px 5px 0 0 var(--pixel-ink);
+  --shadow-nes-lg: 9px 9px 0 0 var(--pixel-ink);
+  --border-nes:   3px solid var(--pixel-ink);
+  --radius:       0px;
+  --page-max:     1120px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  background: #e6dcc2;   /* fallback tone behind the low-poly canvas */
+  color-scheme: light;
+}
+
+body {
+  font-family: var(--font-sans);
+  /* the background is an animated low-poly mesh painted by <PolyBg /> onto an
+     absolutely-positioned canvas that spans the whole document and scrolls with
+     it (see src/components/PolyBg.astro) */
+  background: #e6dcc2;
+  color: var(--chalk);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  position: relative;   /* containing block for the absolute background canvas */
+  /* clip (not hidden) so we don't turn <body> into a scroll container,
+     which would break position: sticky on the nav */
+  overflow-x: clip;
+}
+
+/* --- headings --- */
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height: 1.12; letter-spacing: -0.015em; }
+h1 { font-size: clamp(1.8rem, 4.2vw, 2.8rem); text-transform: uppercase; }
+h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); }
+h3 { font-size: 1.15rem; }
+
+a { color: var(--sky-pick); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+img { max-width: 100%; display: block; }
+
+::selection { background: var(--penalty-flag); color: var(--pixel-ink); }
+
+:focus-visible {
+  outline: 3px solid var(--penalty-flag);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   REUSABLE PIECES
+   ============================================================ */
+
+/* heavy display type — headings, the wordmark, big moments */
+.pixel {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+/* kicker — the little label above a section */
+.kicker {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--penalty-flag);
+  display: inline-block;
+}
+
+/* stat / number readout — tabular figures */
+.readout {
+  font-family: var(--font-sans);
+  font-feature-settings: 'tnum' 1, 'cv01' 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+/* the NES panel — a bordered card with a hard offset shadow */
+.panel {
+  background: var(--turf-line);
+  border: var(--border-nes);
+  box-shadow: var(--shadow-nes);
+}
+.panel--flush { box-shadow: none; }
+.panel--gold { border-color: var(--penalty-flag); }
+
+/* section header strip: black bar, heavy caps */
+.strip {
+  background: var(--pixel-ink);
+  color: var(--on-ink);
+  border: var(--border-nes);
+  border-bottom-width: 3px;
+  padding: 0.6rem 0.9rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* NES button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.7rem 1.1rem;
+  background: var(--penalty-flag);
+  color: var(--pixel-ink);
+  border: var(--border-nes);
+  box-shadow: var(--shadow-nes);
+  cursor: pointer;
+  transition: transform 0.06s steps(2), box-shadow 0.06s steps(2);
+}
+.btn:hover { text-decoration: none; transform: translate(2px, 2px); box-shadow: 2px 2px 0 0 var(--pixel-ink); }
+.btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 var(--pixel-ink); }
+.btn--ghost { background: var(--turf-line); color: var(--chalk); }
+
+/* W / L / T result pills */
+.pill {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.35rem;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 0.76rem;
+  border: 2px solid var(--pixel-ink);
+  color: var(--on-ink);
+}
+.pill--w { background: var(--first-down); }
+.pill--l { background: var(--blitz-red); }
+.pill--t { background: var(--chalk-faint); }
+
+/* tag / chip */
+.chip {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  background: var(--turf-line-2);
+  border: 2px solid var(--hash-mark);
+  color: var(--chalk-dim);
+}
+
+/* data tables — the scoreboard look */
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--turf-line);
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-size: 0.86rem;
+}
+.stat-table th {
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-dim);
+  padding: 0.55rem 0.7rem;
+  border-bottom: var(--border-nes);
+  white-space: nowrap;
+}
+.stat-table th:first-child, .stat-table td:first-child { text-align: left; }
+.stat-table td {
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid var(--hash-mark);
+}
+.stat-table tbody tr:hover { background: var(--turf-line-2); }
+.stat-table tr[data-me='true'] { background: color-mix(in srgb, var(--sky-pick) 16%, transparent); }
+
+/* visually-hidden but screen-reader available */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* scanline overlay — subtle CRT texture, toggled on <body> */
+.crt::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg, rgba(0,0,0,0.14) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* generic layout helpers */
+.stack > * + * { margin-top: var(--gap, 1rem); }
+.grid { display: grid; gap: clamp(1rem, 2.5vw, 1.5rem); }
+.section { padding-block: clamp(2rem, 5vw, 3.5rem); }
+.section--tight { padding-block: clamp(1.25rem, 3vw, 2rem); }

@@ -1,0 +1,1125 @@
+{
+  "generatedAt": "2026-08-29T05:30:05.274Z",
+  "season": 2026,
+  "league": {
+    "id": "1670450262",
+    "name": "Armchair Quarterbacks",
+    "size": 10,
+    "scoring": "H2H · PPR",
+    "regularSeasonWeeks": 13,
+    "playoffTeamCount": 4,
+    "playoffSeedingRule": "TOTAL_POINTS_SCORED",
+    "currentWeek": 0,
+    "seasonStarted": false,
+    "draft": {
+      "date": "2026-08-30T19:00:00.000Z",
+      "type": "SNAKE",
+      "secondsPerPick": 90,
+      "completed": false,
+      "inProgress": false,
+      "order": [
+        9,
+        1,
+        4,
+        3,
+        8,
+        5,
+        7,
+        6,
+        10,
+        2
+      ],
+      "picks": []
+    }
+  },
+  "teams": [
+    {
+      "id": 1,
+      "name": "Type 2 Diabetes",
+      "abbrev": "T2D",
+      "initials": "T2D",
+      "logo": null,
+      "owner": "Nick Shea",
+      "ownerHandle": "Colonel Sanders College Commander",
+      "bio": null,
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 0,
+        "pointsAgainst": 0,
+        "streakType": "NONE",
+        "streakLength": 0
+      },
+      "rank": null,
+      "roster": []
+    },
+    {
+      "id": 2,
+      "name": "Hopsdale Hangover's",
+      "abbrev": "Hh",
+      "initials": "HH",
+      "logo": "https://g.espncdn.com/lm-static/logo-packs/ffl/AtTheStadium-RobbHarskamp/At_The_Stadium_16.svg",
+      "owner": "Ty Heckenlaible",
+      "ownerHandle": null,
+      "bio": null,
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 0,
+        "pointsAgainst": 0,
+        "streakType": "NONE",
+        "streakLength": 0
+      },
+      "rank": null,
+      "roster": []
+    },
+    {
+      "id": 3,
+      "name": "ThunderSkol",
+      "abbrev": "SKOL",
+      "initials": "SKO",
+      "logo": null,
+      "owner": "Josh Frieler",
+      "ownerHandle": "ImYoshingYou",
+      "bio": null,
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 0,
+        "pointsAgainst": 0,
+        "streakType": "NONE",
+        "streakLength": 0
+      },
+      "rank": null,
+      "roster": []
+    },
+    {
+      "id": 4,
+      "name": "Michael's Magnificent Team",
+      "abbrev": "MMT",
+      "initials": "MMT",
+      "logo": null,
+      "owner": "Michael Formisano",
+      "ownerHandle": null,
+      "bio": null,
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 0,
+        "pointsAgainst": 0,
+        "streakType": "NONE",
+        "streakLength": 0
+      },
+      "rank": null,
+      "roster": []
+    },
+    {
+      "id": 5,
+      "name": "Luke's Loud Team",
+      "abbrev": "LLT",
+      "initials": "LLT",
+      "logo": null,
+      "owner": "Luke Hiller",
+      "ownerHandle": "DeltaV",
+      "bio": null,
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 0,
+        "pointsAgainst": 0,
+        "streakType": "NONE",
+        "streakLength": 0
+      },
+      "rank": null,
+      "roster": []
+    },
+    {
+      "id": 6,
+      "name": "Robert Boucher Jr",
+      "abbrev": "RBJR",
+      "initials": "RBJ",
+      "logo": null,
+      "owner": "Tanner Rank",
+      "ownerHandle": null,
+      "bio": null,
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 0,
+        "pointsAgainst": 0,
+        "streakType": "NONE",
+        "streakLength": 0
+      },
+      "rank": null,
+      "roster": []
+    },
+    {
+      "id": 7,
+      "name": "Big bouch ballers",
+      "abbrev": "BBB",
+      "initials": "BBB",
+      "logo": null,
+      "owner": "Brett Berens",
+      "ownerHandle": null,
+      "bio": null,
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 0,
+        "pointsAgainst": 0,
+        "streakType": "NONE",
+        "streakLength": 0
+      },
+      "rank": null,
+      "roster": []
+    },
+    {
+      "id": 8,
+      "name": "Anthony's Astounding Team",
+      "abbrev": "AAT",
+      "initials": "AAT",
+      "logo": null,
+      "owner": "Anthony Gant",
+      "ownerHandle": null,
+      "bio": null,
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 0,
+        "pointsAgainst": 0,
+        "streakType": "NONE",
+        "streakLength": 0
+      },
+      "rank": null,
+      "roster": []
+    },
+    {
+      "id": 9,
+      "name": "Team 9",
+      "abbrev": "TM9",
+      "initials": "TM9",
+      "logo": null,
+      "owner": "Open seat",
+      "ownerHandle": null,
+      "bio": null,
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 0,
+        "pointsAgainst": 0,
+        "streakType": "NONE",
+        "streakLength": 0
+      },
+      "rank": null,
+      "roster": []
+    },
+    {
+      "id": 10,
+      "name": "Bottom Feeding Bums",
+      "abbrev": ":(",
+      "initials": "BFB",
+      "logo": null,
+      "owner": "Nathean Andersen-Otto",
+      "ownerHandle": null,
+      "bio": null,
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 0,
+        "pointsAgainst": 0,
+        "streakType": "NONE",
+        "streakLength": 0
+      },
+      "rank": null,
+      "roster": []
+    }
+  ],
+  "weeks": [
+    {
+      "week": 1,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 2,
+            "score": 0
+          },
+          "away": {
+            "teamId": 9,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 6,
+            "score": 0
+          },
+          "away": {
+            "teamId": 7,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 8,
+            "score": 0
+          },
+          "away": {
+            "teamId": 3,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 10,
+            "score": 0
+          },
+          "away": {
+            "teamId": 1,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 5,
+            "score": 0
+          },
+          "away": {
+            "teamId": 4,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 9,
+            "score": 0
+          },
+          "away": {
+            "teamId": 7,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 3,
+            "score": 0
+          },
+          "away": {
+            "teamId": 2,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 1,
+            "score": 0
+          },
+          "away": {
+            "teamId": 6,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 4,
+            "score": 0
+          },
+          "away": {
+            "teamId": 8,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 5,
+            "score": 0
+          },
+          "away": {
+            "teamId": 10,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 3,
+            "score": 0
+          },
+          "away": {
+            "teamId": 9,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 7,
+            "score": 0
+          },
+          "away": {
+            "teamId": 1,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 2,
+            "score": 0
+          },
+          "away": {
+            "teamId": 4,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 6,
+            "score": 0
+          },
+          "away": {
+            "teamId": 5,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 8,
+            "score": 0
+          },
+          "away": {
+            "teamId": 10,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 9,
+            "score": 0
+          },
+          "away": {
+            "teamId": 1,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 4,
+            "score": 0
+          },
+          "away": {
+            "teamId": 3,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 5,
+            "score": 0
+          },
+          "away": {
+            "teamId": 7,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 10,
+            "score": 0
+          },
+          "away": {
+            "teamId": 2,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 8,
+            "score": 0
+          },
+          "away": {
+            "teamId": 6,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 5,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 4,
+            "score": 0
+          },
+          "away": {
+            "teamId": 9,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 1,
+            "score": 0
+          },
+          "away": {
+            "teamId": 5,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 3,
+            "score": 0
+          },
+          "away": {
+            "teamId": 10,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 7,
+            "score": 0
+          },
+          "away": {
+            "teamId": 8,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 2,
+            "score": 0
+          },
+          "away": {
+            "teamId": 6,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 6,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 9,
+            "score": 0
+          },
+          "away": {
+            "teamId": 5,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 10,
+            "score": 0
+          },
+          "away": {
+            "teamId": 4,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 8,
+            "score": 0
+          },
+          "away": {
+            "teamId": 1,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 6,
+            "score": 0
+          },
+          "away": {
+            "teamId": 3,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 2,
+            "score": 0
+          },
+          "away": {
+            "teamId": 7,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 7,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 10,
+            "score": 0
+          },
+          "away": {
+            "teamId": 9,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 5,
+            "score": 0
+          },
+          "away": {
+            "teamId": 8,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 4,
+            "score": 0
+          },
+          "away": {
+            "teamId": 6,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 1,
+            "score": 0
+          },
+          "away": {
+            "teamId": 2,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 3,
+            "score": 0
+          },
+          "away": {
+            "teamId": 7,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 8,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 9,
+            "score": 0
+          },
+          "away": {
+            "teamId": 8,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 6,
+            "score": 0
+          },
+          "away": {
+            "teamId": 10,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 2,
+            "score": 0
+          },
+          "away": {
+            "teamId": 5,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 7,
+            "score": 0
+          },
+          "away": {
+            "teamId": 4,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 3,
+            "score": 0
+          },
+          "away": {
+            "teamId": 1,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 9,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 6,
+            "score": 0
+          },
+          "away": {
+            "teamId": 9,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 8,
+            "score": 0
+          },
+          "away": {
+            "teamId": 2,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 10,
+            "score": 0
+          },
+          "away": {
+            "teamId": 7,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 5,
+            "score": 0
+          },
+          "away": {
+            "teamId": 3,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 4,
+            "score": 0
+          },
+          "away": {
+            "teamId": 1,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 10,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 9,
+            "score": 0
+          },
+          "away": {
+            "teamId": 2,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 7,
+            "score": 0
+          },
+          "away": {
+            "teamId": 6,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 3,
+            "score": 0
+          },
+          "away": {
+            "teamId": 8,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 1,
+            "score": 0
+          },
+          "away": {
+            "teamId": 10,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 4,
+            "score": 0
+          },
+          "away": {
+            "teamId": 5,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 11,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 7,
+            "score": 0
+          },
+          "away": {
+            "teamId": 9,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 2,
+            "score": 0
+          },
+          "away": {
+            "teamId": 3,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 6,
+            "score": 0
+          },
+          "away": {
+            "teamId": 1,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 8,
+            "score": 0
+          },
+          "away": {
+            "teamId": 4,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 10,
+            "score": 0
+          },
+          "away": {
+            "teamId": 5,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 12,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 9,
+            "score": 0
+          },
+          "away": {
+            "teamId": 3,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 1,
+            "score": 0
+          },
+          "away": {
+            "teamId": 7,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 4,
+            "score": 0
+          },
+          "away": {
+            "teamId": 2,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 5,
+            "score": 0
+          },
+          "away": {
+            "teamId": 6,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 10,
+            "score": 0
+          },
+          "away": {
+            "teamId": 8,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    },
+    {
+      "week": 13,
+      "status": "upcoming",
+      "isPlayoffs": false,
+      "games": [
+        {
+          "home": {
+            "teamId": 1,
+            "score": 0
+          },
+          "away": {
+            "teamId": 9,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 3,
+            "score": 0
+          },
+          "away": {
+            "teamId": 4,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 7,
+            "score": 0
+          },
+          "away": {
+            "teamId": 5,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 2,
+            "score": 0
+          },
+          "away": {
+            "teamId": 10,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        },
+        {
+          "home": {
+            "teamId": 6,
+            "score": 0
+          },
+          "away": {
+            "teamId": 8,
+            "score": 0
+          },
+          "winner": null,
+          "playoff": null
+        }
+      ]
+    }
+  ],
+  "awards": {
+    "weekly": []
+  },
+  "powerRankings": [],
+  "transactions": []
+}

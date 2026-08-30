@@ -1,0 +1,23 @@
+{
+  "_comment": "League history ESPN won't give us (the 2025 league instance is locked private). Add a new block to `seasons` each year. `teamId` links to the current roster of managers where possible.",
+  "firstSeason": 2025,
+  "preEspnNote": "The Armchair Quarterbacks era begins with the 2025 season on ESPN.",
+  "seasons": [
+    {
+      "year": 2025,
+      "champion":    { "team": "Hopsdale Hangover's",   "owner": "Ty Heckenlaible",        "teamId": 2 },
+      "runnerUp":    { "team": "Bottom Feeding Bums",    "owner": "Nathean Andersen-Otto",  "teamId": 10 },
+      "third":       { "team": "Robert Boucher Jr",      "owner": "Tanner Rank",            "teamId": 6 },
+      "lastPlace":   { "team": "ThunderSkol",            "owner": "Josh Frieler",           "teamId": 3 },
+      "note": ""
+    }
+  ],
+  "records": {
+    "_comment": "Optional all-time record book. Fill in when you have the numbers; blank entries are hidden on the site.",
+    "single_week_high": { "value": null, "owner": "", "week": "", "year": null },
+    "single_week_low":  { "value": null, "owner": "", "week": "", "year": null },
+    "single_season_points": { "value": null, "owner": "", "year": null },
+    "biggest_blowout": { "value": null, "detail": "", "year": null },
+    "longest_win_streak": { "value": null, "owner": "", "year": null }
+  }
+}

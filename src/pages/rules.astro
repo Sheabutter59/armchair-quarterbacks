@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import info from '../data/league-info.json';
+
+const f = info.format;
+---
+<Base
+  title="Rules"
+  kicker="The League"
+  heading="League Constitution"
+  description="How the Armchair Quarterbacks league works — format, money, and the rules everyone agreed to ignore selectively."
+>
+  <section class="container section--tight rules-wrap">
+    <div class="format panel">
+      <div class="strip"><span aria-hidden="true">▚</span><span>Format at a Glance</span></div>
+      <dl class="format__grid">
+        <div><dt>Teams</dt><dd>{f.teams}</dd></div>
+        <div><dt>Scoring</dt><dd>{f.scoring}</dd></div>
+        <div><dt>Regular season</dt><dd>{f.regularSeasonWeeks} weeks</dd></div>
+        <div><dt>Playoffs</dt><dd>{f.playoffTeams} teams · Weeks {f.playoffWeeks}</dd></div>
+        <div><dt>Bench / IR</dt><dd>{f.bench} / {f.ir}</dd></div>
+        <div><dt>Buy-in</dt><dd>${info.money.buyIn}</dd></div>
+      </dl>
+      <div class="lineup">
+        <p class="kicker">Starting Lineup</p>
+        <div class="lineup__slots">
+          {f.lineup.map((s) => <span class="slot chip">{s}</span>)}
+        </div>
+      </div>
+      <p class="seeding">
+        <strong>Seeding:</strong> {f.seedingRule}
+      </p>
+    </div>
+
+    <SectionHeader label="The Rules" />
+    <ol class="rules">
+      {info.rules.map((r, i) => (
+        <li class="rule panel">
+          <span class="rule__num pixel">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <h2 class="rule__title">{r.title}</h2>
+            <p class="rule__body">{r.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <p class="amend readout">
+      Amendments happen by majority vote in the group chat, ideally before the season, definitely
+      not retroactively to benefit the person proposing them.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .rules-wrap { max-width: 760px; }
+  .format { margin-bottom: 2rem; }
+  .format__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1px; background: var(--hash-mark); }
+  .format__grid > div { background: var(--turf-line); padding: 0.85rem 1rem; }
+  .format__grid dt { font-family: var(--font-mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--chalk-faint); }
+  .format__grid dd { font-family: var(--font-mono); font-size: 1.05rem; margin-top: 0.15rem; }
+  .lineup { padding: 1rem; border-top: 1px solid var(--hash-mark); }
+  .lineup__slots { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+  .seeding { padding: 1rem; border-top: 1px solid var(--hash-mark); color: var(--chalk-dim); font-size: 0.9rem; line-height: 1.7; }
+  .seeding strong { color: var(--penalty-flag); }
+
+  .rules { list-style: none; display: grid; gap: 1rem; }
+  .rule { display: flex; gap: 1rem; padding: 1.1rem 1.25rem; align-items: flex-start; }
+  .rule__num { font-size: 1rem; color: var(--penalty-flag); flex-shrink: 0; line-height: 1.4; }
+  .rule__title { font-size: 1.05rem; margin-bottom: 0.35rem; }
+  .rule__body { color: var(--chalk-dim); font-size: 0.92rem; line-height: 1.7; }
+  .amend { margin-top: 1.5rem; color: var(--chalk-faint); line-height: 1.7; }
+</style>

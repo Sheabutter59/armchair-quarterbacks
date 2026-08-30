@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import EmptyState from '../components/EmptyState.astro';
+import DataStamp from '../components/DataStamp.astro';
+import league from '../data/league.json';
+import { teamById, fmtDate } from '../lib/site.js';
+
+const txns = league.transactions || [];
+const LABEL = { WAIVER: 'Waiver', FREEAGENT: 'Free agent', TRADE_ACCEPT: 'Trade', ADD: 'Add', DROP: 'Drop' };
+---
+<Base
+  title="Transactions"
+  kicker="The League"
+  heading="Transaction Log"
+  description="Adds, drops, waivers and trades across the Armchair Quarterbacks league."
+>
+  <section class="container section--tight txn-wrap">
+    {txns.length ? (
+      <ul class="txns">
+        {txns.map((tx) => {
+          const team = teamById(tx.teamId);
+          return (
+            <li class="txn panel">
+              <div class="txn__head">
+                <span class="chip">{LABEL[tx.type] || tx.type}</span>
+                <span class="txn__team">{team?.name || 'League'}</span>
+                <span class="txn__date readout">{fmtDate(tx.date)}</span>
+              </div>
+              <ul class="txn__items">
+                {tx.items.map((it) => (
+                  <li class:list={['txn__item', it.type === 'ADD' ? 'is-add' : 'is-drop']}>
+                    <span>{it.type === 'ADD' ? '＋' : '－'}</span>
+                    <span>Player #{it.playerId}</span>
+                  </li>
+                ))}
+              </ul>
+              {tx.bidAmount > 0 && <p class="txn__bid readout">FAAB ${tx.bidAmount}</p>}
+            </li>
+          );
+        })}
+      </ul>
+    ) : (
+      <EmptyState icon="swap" title="No moves yet">
+        Once the season's underway, every waiver claim, free-agent add, drop and trade shows up
+        here — a running record of who's tinkering and who's asleep at the wheel.
+      </EmptyState>
+    )}
+    <DataStamp iso={league.generatedAt} />
+  </section>
+</Base>
+
+<style>
+  .txn-wrap { max-width: 680px; }
+  .txns { list-style: none; display: grid; gap: 0.75rem; }
+  .txn { padding: 0.9rem 1.1rem; }
+  .txn__head { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .txn__team { font-weight: 600; }
+  .txn__date { margin-left: auto; font-size: 0.66rem; color: var(--chalk-faint); text-transform: uppercase; letter-spacing: 0.06em; }
+  .txn__items { list-style: none; margin-top: 0.5rem; display: grid; gap: 0.2rem; }
+  .txn__item { display: flex; gap: 0.5rem; font-size: 0.85rem; font-family: var(--font-mono); }
+  .txn__item.is-add span:first-child { color: var(--first-down); }
+  .txn__item.is-drop span:first-child { color: var(--blitz-red); }
+  .txn__bid { margin-top: 0.4rem; font-size: 0.66rem; color: var(--chalk-faint); }
+</style>

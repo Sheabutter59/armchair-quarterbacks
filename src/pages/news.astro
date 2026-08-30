@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import DataStamp from '../components/DataStamp.astro';
+import news from '../data/news.json';
+import { fmtDate, relTime } from '../lib/site.js';
+
+const items = news.items || [];
+// group by calendar day
+const groups = [];
+for (const it of items) {
+  const day = it.publishedAt ? fmtDate(it.publishedAt) : 'Undated';
+  const g = groups.find((x) => x.day === day);
+  if (g) g.items.push(it);
+  else groups.push({ day, items: [it] });
+}
+---
+<Base
+  title="NFL News"
+  kicker="Around the League"
+  heading="NFL Breaking News"
+  description="A rolling feed of NFL headlines from ESPN, Pro Football Talk and CBS Sports — auto-refreshed."
+>
+  <section class="container section--tight news-wrap">
+    {items.length ? (
+      <>
+        <p class="lede">
+          Headlines pulled from {news.sources.join(', ')} a few times a day. Injuries, roster
+          moves, and things to panic about before setting your lineup.
+        </p>
+        {groups.map((g) => (
+          <div class="daygroup">
+            <p class="daygroup__label kicker">{g.day}</p>
+            <ul class="feed">
+              {g.items.map((it) => (
+                <li class="item">
+                  <a class="item__title" href={it.url} rel="noopener" target="_blank">{it.title}</a>
+                  {it.summary && <p class="item__summary">{it.summary}</p>}
+                  <p class="item__meta readout">
+                    {it.source}{it.publishedAt && <> · {relTime(it.publishedAt)}</>}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <DataStamp iso={news.generatedAt} source={news.sources.join(' / ')} />
+      </>
+    ) : (
+      <div class="panel emptybox">
+        <p>The news feed hasn't run yet. Once the scheduled refresh fires, headlines land here.</p>
+      </div>
+    )}
+  </section>
+</Base>
+
+<style>
+  .news-wrap { max-width: 760px; }
+  .lede { color: var(--chalk-dim); margin-bottom: 1.75rem; }
+  .daygroup { margin-bottom: 1.75rem; }
+  .daygroup__label { margin-bottom: 0.6rem; }
+  .feed { list-style: none; display: grid; gap: 0.5rem; }
+  .item { padding: 0.9rem 1rem; background: var(--turf-line); border: 2px solid var(--hash-mark); border-left: 4px solid var(--sky-pick); }
+  .item__title { font-weight: 600; color: var(--chalk); }
+  .item__title:hover { color: var(--sky-pick); }
+  .item__summary { color: var(--chalk-dim); font-size: 0.86rem; margin-top: 0.3rem; line-height: 1.6; }
+  .item__meta { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--chalk-faint); margin-top: 0.45rem; }
+  .emptybox { padding: 1.5rem; color: var(--chalk-dim); }
+</style>

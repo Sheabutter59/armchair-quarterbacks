@@ -1,0 +1,25 @@
+---
+interface Props { label: string; sub?: string; href?: string; hrefLabel?: string; }
+const { label, sub, href, hrefLabel = 'See all' } = Astro.props;
+---
+<div class="sh">
+  <div class="strip sh__strip">
+    <span aria-hidden="true">▚</span>
+    <span>{label}</span>
+    {sub && <span class="sh__sub">{sub}</span>}
+    {href && <a class="sh__link" href={href}>{hrefLabel} →</a>}
+  </div>
+</div>
+<style>
+  .sh { margin-bottom: 1rem; }
+  .sh__strip { justify-content: flex-start; }
+  .sh__sub {
+    font-family: var(--font-mono); font-size: 0.62rem; color: var(--penalty-flag);
+    letter-spacing: 0.1em; opacity: 0.85;
+  }
+  .sh__link {
+    margin-left: auto; font-family: var(--font-mono); font-size: 0.6rem;
+    color: var(--sky-pick); letter-spacing: 0.08em;
+  }
+  .sh__link:hover { color: var(--penalty-flag); }
+</style>

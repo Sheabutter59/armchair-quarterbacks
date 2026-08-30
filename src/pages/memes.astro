@@ -1,0 +1,163 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import memes from '../data/memes.json';
+import info from '../data/league-info.json';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const list = memes.memes || [];
+
+const repoSet = info.repo && !info.repo.startsWith('your-username');
+const issueBase = repoSet ? `https://github.com/${info.repo}/issues/new` : null;
+---
+<Base
+  title="Meme Wall"
+  kicker="The Group Chat"
+  heading="The Meme Wall"
+  description="Every meme worth saving from the Armchair Quarterbacks group chat."
+>
+  <section class="container section--tight">
+    <p class="lede">
+      {list.length} certified bangers. Tap one to blow it up.
+    </p>
+
+    <div class="wall">
+      {list.map((m) => (
+        <button class="tile" data-full={`${base}${m.src}`} data-cap={m.caption} type="button">
+          <img src={`${base}${m.src}`} alt={m.alt} />
+          <span class="tile__cap">{m.caption}</span>
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <section class="container section--tight">
+    <SectionHeader label="Submission Bin" />
+    <div class="bin panel">
+      <p class="bin__lede">
+        Got a banger for the wall (and a shot at <strong>Meme of the Week</strong>)? Drop it in
+        the bin. Fill this out, attach your image, and the commissioner adds it on the next update.
+      </p>
+      {issueBase ? (
+        <form class="bin__form" data-bin action={issueBase} method="get" target="_blank">
+          <input type="hidden" name="labels" value="meme" />
+          <label>Your name
+            <input name="_who" placeholder="so we can credit you" />
+          </label>
+          <label>Caption
+            <input name="_caption" placeholder="what should it say under the meme" />
+          </label>
+          <label>Notes <span class="bin__opt">(optional)</span>
+            <input name="_notes" placeholder="context, who it's roasting, etc." />
+          </label>
+          <input type="hidden" name="title" value="Meme submission" />
+          <textarea name="body" hidden></textarea>
+          <button class="btn" type="submit">Open the bin →</button>
+          <p class="bin__fine">
+            Opens a GitHub page. Sign in (free), then <strong>drag your image into the comment box</strong>
+            and hit “Submit”. No GitHub account? Just send it to the group chat.
+          </p>
+        </form>
+      ) : (
+        <p class="bin__fine">
+          The submission bin turns on once the GitHub repo is set in
+          <code>src/data/league-info.json</code> (<code>repo</code> field). Until then: group chat.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <div class="lightbox" data-lightbox hidden>
+    <button class="lightbox__close" data-lb-close aria-label="Close">✕</button>
+    <figure class="lightbox__fig">
+      <img data-lb-img src="" alt="" />
+      <figcaption data-lb-cap class="lightbox__cap"></figcaption>
+    </figure>
+  </div>
+</Base>
+
+<script>
+  const lb = document.querySelector('[data-lightbox]');
+  const img = lb?.querySelector('[data-lb-img]');
+  const cap = lb?.querySelector('[data-lb-cap]');
+  const open = (src, caption) => {
+    if (!lb) return;
+    img.src = src; img.alt = caption || ''; cap.textContent = caption || '';
+    lb.hidden = false; document.body.style.overflow = 'hidden';
+  };
+  const close = () => { if (lb) { lb.hidden = true; document.body.style.overflow = ''; } };
+  document.querySelectorAll('.tile').forEach((t) =>
+    t.addEventListener('click', () => open(t.dataset.full, t.dataset.cap)),
+  );
+  document.querySelectorAll('[data-lb-close]').forEach((b) => b.addEventListener('click', close));
+  lb?.addEventListener('click', (e) => { if (e.target === lb) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+  // compose the GitHub issue body from the friendly fields
+  const bin = document.querySelector('[data-bin]');
+  bin?.addEventListener('submit', () => {
+    const g = (n) => bin.querySelector(`[name="${n}"]`)?.value?.trim() || '';
+    const body = bin.querySelector('[name="body"]');
+    body.value =
+      `**Submitted by:** ${g('_who') || '(anonymous)'}\n` +
+      `**Caption:** ${g('_caption') || '(none)'}\n` +
+      (g('_notes') ? `**Notes:** ${g('_notes')}\n` : '') +
+      `\n---\n\n_Drag the meme image into this box, then click **Submit new issue**._\n`;
+    ['_who', '_caption', '_notes'].forEach((n) => bin.querySelector(`[name="${n}"]`)?.removeAttribute('name'));
+  });
+</script>
+
+<style>
+  .lede { color: var(--chalk-dim); margin-bottom: 1.5rem; }
+  code { font-family: ui-monospace, monospace; color: var(--first-down); font-size: 0.85em; font-weight: 600; }
+
+  .bin { padding: 1.25rem 1.4rem; }
+  .bin__lede { color: var(--chalk-dim); font-size: 0.92rem; margin-bottom: 1rem; }
+  .bin__lede strong { color: var(--penalty-flag); }
+  .bin__form { display: grid; gap: 0.85rem; max-width: 480px; }
+  .bin__form label {
+    display: grid; gap: 0.3rem; font-family: var(--font-sans); font-weight: 700;
+    font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--chalk-dim);
+  }
+  .bin__opt { color: var(--chalk-faint); font-weight: 500; text-transform: none; letter-spacing: 0; }
+  .bin__form input:not([type=hidden]) {
+    font-family: var(--font-sans); font-size: 0.9rem; padding: 0.6rem 0.7rem;
+    border: 2px solid var(--pixel-ink); background: var(--turf-line-2); color: var(--chalk);
+  }
+  .bin__form input:focus { outline: 3px solid var(--penalty-flag); outline-offset: 1px; }
+  .bin__form .btn { justify-self: start; }
+  .bin__fine { font-size: 0.72rem; color: var(--chalk-faint); line-height: 1.6; margin-top: 0.4rem; }
+  .bin__fine strong { color: var(--chalk-dim); }
+
+  .wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.85rem; align-items: start; }
+  .tile {
+    display: flex; flex-direction: column; cursor: pointer; text-align: left; padding: 0; font: inherit;
+    background: var(--turf-line); border: var(--border-nes); box-shadow: var(--shadow-nes);
+    transition: transform 0.06s steps(2), box-shadow 0.06s steps(2);
+  }
+  .tile:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 0 var(--pixel-ink); }
+  .tile img {
+    width: 100%; height: auto; max-height: 300px; object-fit: contain;
+    display: block; border-bottom: 2px solid var(--pixel-ink); background: var(--turf-line-2);
+  }
+  .tile__cap {
+    padding: 0.5rem 0.7rem; font-family: var(--font-sans); font-weight: 600; font-size: 0.66rem;
+    color: var(--chalk-dim); text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.4;
+  }
+
+  .lightbox {
+    position: fixed; inset: 0; z-index: 300; background: rgba(5, 19, 11, 0.9);
+    display: grid; place-items: center; padding: 1.5rem;
+  }
+  .lightbox[hidden] { display: none; }
+  .lightbox__close {
+    position: absolute; top: 1rem; right: 1rem; width: 40px; height: 40px;
+    background: var(--penalty-flag); color: var(--pixel-ink); border: var(--border-nes);
+    font-size: 1rem; cursor: pointer;
+  }
+  .lightbox__fig { max-width: min(900px, 100%); max-height: 90vh; display: flex; flex-direction: column; }
+  .lightbox__fig img { max-width: 100%; max-height: 78vh; object-fit: contain; border: var(--border-nes); background: var(--end-zone); }
+  .lightbox__cap {
+    margin-top: 0.75rem; text-align: center; font-family: var(--font-mono); font-size: 0.8rem;
+    color: var(--chalk); text-transform: uppercase; letter-spacing: 0.04em;
+  }
+</style>

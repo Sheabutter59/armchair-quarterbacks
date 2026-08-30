@@ -1,0 +1,73 @@
+---
+interface Props { iso: string; label?: string; doneLabel?: string; }
+const { iso, label = 'Kickoff in', doneLabel = "It's go time." } = Astro.props;
+---
+<div class="cd" data-countdown data-target={iso} data-done={doneLabel}>
+  <p class="cd__label kicker">{label}</p>
+  <div class="cd__clock" role="timer" aria-live="off">
+    <div class="cd__unit"><span class="cd__num" data-d>--</span><span class="cd__cap">Days</span></div>
+    <span class="cd__sep" aria-hidden="true">:</span>
+    <div class="cd__unit"><span class="cd__num" data-h>--</span><span class="cd__cap">Hrs</span></div>
+    <span class="cd__sep" aria-hidden="true">:</span>
+    <div class="cd__unit"><span class="cd__num" data-m>--</span><span class="cd__cap">Min</span></div>
+    <span class="cd__sep" aria-hidden="true">:</span>
+    <div class="cd__unit"><span class="cd__num" data-s>--</span><span class="cd__cap">Sec</span></div>
+  </div>
+</div>
+
+<script>
+  for (const el of document.querySelectorAll('[data-countdown]')) {
+    const target = new Date(el.dataset.target).getTime();
+    const pad = (n) => String(n).padStart(2, '0');
+    const set = (sel, v) => { const n = el.querySelector(sel); if (n) n.textContent = v; };
+    const tick = () => {
+      const diff = target - Date.now();
+      if (diff <= 0) {
+        el.querySelector('.cd__clock')?.remove();
+        const p = el.querySelector('.cd__label');
+        if (p) p.textContent = el.dataset.done || '';
+        clearInterval(timer);
+        return;
+      }
+      const s = Math.floor(diff / 1000);
+      set('[data-d]', pad(Math.floor(s / 86400)));
+      set('[data-h]', pad(Math.floor((s % 86400) / 3600)));
+      set('[data-m]', pad(Math.floor((s % 3600) / 60)));
+      set('[data-s]', pad(s % 60));
+    };
+    tick();
+    const timer = setInterval(tick, 1000);
+  }
+</script>
+
+<style>
+  .cd { text-align: center; }
+  .cd__label { color: var(--penalty-flag); margin-bottom: 0.75rem; }
+  .cd__clock {
+    display: flex; align-items: flex-start; justify-content: center;
+    gap: clamp(0.35rem, 1.5vw, 0.9rem);
+  }
+  .cd__unit { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+  .cd__num {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    font-size: clamp(1.6rem, 7vw, 3rem);
+    /* split-flap board look — light cream card, near-black digits */
+    color: #1c1508;
+    background: #f4ecd6;
+    border: var(--border-nes);
+    box-shadow: var(--shadow-nes);
+    padding: 0.32em 0.26em 0.22em;
+    min-width: 1.8em;
+    line-height: 1;
+  }
+  .cd__cap {
+    font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase;
+    letter-spacing: 0.15em; color: var(--chalk-dim);
+  }
+  .cd__sep {
+    font-family: var(--font-pixel); color: var(--penalty-flag);
+    font-size: clamp(1.2rem, 4vw, 2.4rem); padding-top: 0.3em;
+  }
+</style>

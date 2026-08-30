@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import EmptyState from '../components/EmptyState.astro';
+import DataStamp from '../components/DataStamp.astro';
+import TeamTag from '../components/TeamTag.astro';
+import league from '../data/league.json';
+import { LEAGUE, teamById, recordStr } from '../lib/site.js';
+
+const pr = LEAGUE.powerRankings || [];
+---
+<Base
+  title="Power Rankings"
+  kicker="The League"
+  heading="Power Rankings"
+  description="Weekly, formula-driven power rankings for the Armchair Quarterbacks league."
+>
+  <section class="container section--tight pr-wrap">
+    <div class="pr-method panel">
+      <p class="kicker">The Formula</p>
+      <p>
+        Not a vibe check — a number. <strong>55%</strong> scoring rate,
+        <strong> 30%</strong> win rate, <strong>15%</strong> last-three-weeks form. Scoring is
+        weighted heaviest because this league lives and dies by total points.
+      </p>
+    </div>
+
+    {pr.length ? (
+      <ol class="pr-list">
+        {pr.map((r) => {
+          const t = teamById(r.teamId);
+          return (
+            <li class="pr-row panel">
+              <span class="pr-row__rank pixel">{r.rank}</span>
+              <div class="pr-row__team">
+                <TeamTag team={t} size="sm" />
+                <span class="pr-row__rec readout">{recordStr(t?.record)}</span>
+              </div>
+              <span class="pr-row__val readout">{r.value}</span>
+              {r.note && <p class="pr-row__note">{r.note}</p>}
+            </li>
+          );
+        })}
+      </ol>
+    ) : (
+      <EmptyState icon="bolt" title="Rankings start in Week 2">
+        Power rankings need a couple of weeks of real scores before they mean anything. Once
+        there's data, this updates every week and you can leave notes in
+        <code>src/data/overrides.json</code>.
+      </EmptyState>
+    )}
+    <DataStamp iso={league.generatedAt} />
+  </section>
+</Base>
+
+<style>
+  .pr-wrap { max-width: 680px; }
+  .pr-method { padding: 1.1rem 1.25rem; margin-bottom: 1.75rem; color: var(--chalk-dim); line-height: 1.7; }
+  .pr-method p:last-child { margin-top: 0.4rem; }
+  .pr-method strong { color: var(--penalty-flag); }
+  .pr-method code { font-family: var(--font-mono); color: var(--penalty-flag); font-size: 0.85em; }
+  .pr-list { list-style: none; display: grid; gap: 0.6rem; }
+  .pr-row {
+    display: grid; grid-template-columns: 2.5rem 1fr auto; gap: 0.85rem; align-items: center;
+    padding: 0.75rem 1rem;
+  }
+  .pr-row__rank { font-size: 1rem; color: var(--penalty-flag); text-align: center; }
+  .pr-row__team { display: flex; align-items: center; gap: 0.75rem; }
+  .pr-row__rec { font-size: 0.7rem; color: var(--chalk-dim); }
+  .pr-row__val { font-size: 1.1rem; font-weight: 600; color: var(--chalk); }
+  .pr-row__note { grid-column: 1 / -1; color: var(--chalk-dim); font-size: 0.88rem; padding-top: 0.4rem; border-top: 1px solid var(--hash-mark); }
+</style>

@@ -1,0 +1,14 @@
+---
+import { relTime } from '../lib/site.js';
+interface Props { iso?: string | null; source?: string; }
+const { iso, source = 'ESPN' } = Astro.props;
+---
+<p class="stamp readout">
+  {iso ? <>Synced from {source} · {relTime(iso)}</> : <>Data not yet synced</>}
+</p>
+<style>
+  .stamp {
+    font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--chalk-faint); margin-top: 0.75rem;
+  }
+</style>
