@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-20T17:19:36.625Z",
+  "generatedAt": "2026-10-21T17:22:18.740Z",
   "season": 2026,
   "league": {
     "id": "1670450262",
@@ -1221,17 +1221,17 @@
           "injury": null
         },
         {
-          "name": "Emanuel Wilson",
+          "name": "J.K. Dobbins",
           "pos": "RB",
-          "proTeam": "SEA",
+          "proTeam": "DEN",
           "slot": "RB",
           "starter": true,
           "injury": null
         },
         {
-          "name": "Ravens D/ST",
+          "name": "Jets D/ST",
           "pos": "D/ST",
-          "proTeam": "BAL",
+          "proTeam": "NYJ",
           "slot": "D/ST",
           "starter": true,
           "injury": null
@@ -1261,17 +1261,25 @@
           "injury": null
         },
         {
-          "name": "Kenny Gainwell",
-          "pos": "RB",
-          "proTeam": "TB",
+          "name": "Malik Willis",
+          "pos": "QB",
+          "proTeam": "MIA",
           "slot": "BE",
           "starter": false,
           "injury": null
         },
         {
-          "name": "Malik Willis",
-          "pos": "QB",
-          "proTeam": "MIA",
+          "name": "Emanuel Wilson",
+          "pos": "RB",
+          "proTeam": "SEA",
+          "slot": "BE",
+          "starter": false,
+          "injury": null
+        },
+        {
+          "name": "Ravens D/ST",
+          "pos": "D/ST",
+          "proTeam": "BAL",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -1288,14 +1296,6 @@
           "name": "Aaron Rodgers",
           "pos": "QB",
           "proTeam": "PIT",
-          "slot": "BE",
-          "starter": false,
-          "injury": null
-        },
-        {
-          "name": "MarShawn Lloyd",
-          "pos": "RB",
-          "proTeam": "GB",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -1797,6 +1797,14 @@
           "injury": null
         },
         {
+          "name": "Rashee Rice",
+          "pos": "WR",
+          "proTeam": "KC",
+          "slot": "WR",
+          "starter": true,
+          "injury": "QUESTIONABLE"
+        },
+        {
           "name": "Kenneth Walker III",
           "pos": "RB",
           "proTeam": "KC",
@@ -1811,6 +1819,14 @@
           "slot": "OP",
           "starter": true,
           "injury": null
+        },
+        {
+          "name": "Tyler Warren",
+          "pos": "TE",
+          "proTeam": "IND",
+          "slot": "TE",
+          "starter": true,
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Emeka Egbuka",
@@ -1829,60 +1845,20 @@
           "injury": null
         },
         {
-          "name": "Dalton Kincaid",
-          "pos": "TE",
-          "proTeam": "BUF",
-          "slot": "TE",
-          "starter": true,
-          "injury": null
-        },
-        {
-          "name": "Patriots D/ST",
-          "pos": "D/ST",
-          "proTeam": "NE",
-          "slot": "D/ST",
-          "starter": true,
-          "injury": null
-        },
-        {
-          "name": "Jason Myers",
+          "name": "Will Reichard",
           "pos": "K",
-          "proTeam": "SEA",
+          "proTeam": "MIN",
           "slot": "K",
           "starter": true,
           "injury": null
         },
         {
-          "name": "Tre Tucker",
-          "pos": "WR",
-          "proTeam": "LV",
-          "slot": "WR",
+          "name": "Browns D/ST",
+          "pos": "D/ST",
+          "proTeam": "CLE",
+          "slot": "D/ST",
           "starter": true,
           "injury": null
-        },
-        {
-          "name": "Jalen Hurts",
-          "pos": "QB",
-          "proTeam": "PHI",
-          "slot": "IR",
-          "starter": false,
-          "injury": "INJURY_RESERVE"
-        },
-        {
-          "name": "Rashee Rice",
-          "pos": "WR",
-          "proTeam": "KC",
-          "slot": "BE",
-          "starter": false,
-          "injury": "QUESTIONABLE"
-        },
-        {
-          "name": "Tyler Warren",
-          "pos": "TE",
-          "proTeam": "IND",
-          "slot": "BE",
-          "starter": false,
-          "injury": "QUESTIONABLE"
         },
         {
           "name": "DJ Moore",
@@ -1923,6 +1899,30 @@
           "slot": "BE",
           "starter": false,
           "injury": "QUESTIONABLE"
+        },
+        {
+          "name": "Sam Darnold",
+          "pos": "QB",
+          "proTeam": "SEA",
+          "slot": "BE",
+          "starter": false,
+          "injury": null
+        },
+        {
+          "name": "De'Zhaun Stribling",
+          "pos": "WR",
+          "proTeam": "SF",
+          "slot": "IR",
+          "starter": false,
+          "injury": "INJURY_RESERVE"
+        },
+        {
+          "name": "Germie Bernard",
+          "pos": "WR",
+          "proTeam": "PIT",
+          "slot": "BE",
+          "starter": false,
+          "injury": null
         }
       ]
     },
@@ -1984,7 +1984,7 @@
           "proTeam": "LAR",
           "slot": "OP",
           "starter": true,
-          "injury": "OUT"
+          "injury": "INJURY_RESERVE"
         },
         {
           "name": "Harold Fannin Jr.",
@@ -2190,7 +2190,7 @@
           "proTeam": "WSH",
           "slot": "BE",
           "starter": false,
-          "injury": "DOUBTFUL"
+          "injury": "OUT"
         },
         {
           "name": "Jameson Williams",
@@ -2316,7 +2316,7 @@
           "proTeam": "TEN",
           "slot": "RB",
           "starter": true,
-          "injury": null
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Romeo Doubs",
@@ -3549,6 +3549,270 @@
     }
   ],
   "transactions": [
+    {
+      "id": "d2c36e78-9e88-458e-842a-41a038d60f38",
+      "date": "2026-10-21T16:58:02.456Z",
+      "type": "FREEAGENT",
+      "teamId": 6,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "ADD",
+          "playerId": 4685261,
+          "fromTeamId": null,
+          "toTeamId": 6
+        }
+      ]
+    },
+    {
+      "id": "bdafdb8d-0760-41ca-ab77-0437c0177d18",
+      "date": "2026-10-21T16:57:59.312Z",
+      "type": "ROSTER",
+      "teamId": 6,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "LINEUP",
+          "playerId": 4710714,
+          "fromTeamId": null,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "62925536-a5b7-45fe-b8b1-e202902ab158",
+      "date": "2026-10-21T16:56:48.652Z",
+      "type": "FREEAGENT",
+      "teamId": 6,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "ADD",
+          "playerId": 4710714,
+          "fromTeamId": null,
+          "toTeamId": 6
+        }
+      ]
+    },
+    {
+      "id": "2e61a00e-f6fe-49e5-8c05-a08e098bf07b",
+      "date": "2026-10-21T16:56:41.730Z",
+      "type": "ROSTER",
+      "teamId": 6,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "DROP",
+          "playerId": 4428718,
+          "fromTeamId": 6,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "33f3fb2b-3b6c-4c55-bdba-95db14e6a416",
+      "date": "2026-10-21T16:55:35.615Z",
+      "type": "FREEAGENT",
+      "teamId": 6,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "ADD",
+          "playerId": 3912547,
+          "fromTeamId": null,
+          "toTeamId": 6
+        },
+        {
+          "type": "DROP",
+          "playerId": 4385690,
+          "fromTeamId": 6,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "e095e047-8fb6-45b2-bb52-7de951eb3fc9",
+      "date": "2026-10-21T16:47:42.460Z",
+      "type": "FREEAGENT",
+      "teamId": 6,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "ADD",
+          "playerId": -16005,
+          "fromTeamId": null,
+          "toTeamId": 6
+        },
+        {
+          "type": "DROP",
+          "playerId": -16017,
+          "fromTeamId": 6,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "d9ee44ae-5773-4d51-8b2b-435dfea467aa",
+      "date": "2026-10-21T16:47:15.442Z",
+      "type": "FREEAGENT",
+      "teamId": 6,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "ADD",
+          "playerId": 4567104,
+          "fromTeamId": null,
+          "toTeamId": 6
+        },
+        {
+          "type": "DROP",
+          "playerId": 2473037,
+          "fromTeamId": 6,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "78a668f8-9ee3-4e0f-b260-e25457f78797",
+      "date": "2026-10-21T16:46:46.001Z",
+      "type": "ROSTER",
+      "teamId": 6,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "LINEUP",
+          "playerId": 4428718,
+          "fromTeamId": null,
+          "toTeamId": null
+        },
+        {
+          "type": "LINEUP",
+          "playerId": 4428331,
+          "fromTeamId": null,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "fef84c5c-a68d-4f94-b945-8adb7e427e0a",
+      "date": "2026-10-21T16:46:31.383Z",
+      "type": "ROSTER",
+      "teamId": 6,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "DROP",
+          "playerId": 4040715,
+          "fromTeamId": 6,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "9fbfdad3-c464-4557-8473-934d331f3e5c",
+      "date": "2026-10-21T16:46:19.819Z",
+      "type": "ROSTER",
+      "teamId": 6,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "LINEUP",
+          "playerId": 4385690,
+          "fromTeamId": null,
+          "toTeamId": null
+        },
+        {
+          "type": "LINEUP",
+          "playerId": 4431459,
+          "fromTeamId": null,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "420ff7c2-46be-4787-81ff-de3073d0ec3a",
+      "date": "2026-10-21T12:13:45.559Z",
+      "type": "ROSTER",
+      "teamId": 2,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "LINEUP",
+          "playerId": -16033,
+          "fromTeamId": null,
+          "toTeamId": null
+        },
+        {
+          "type": "LINEUP",
+          "playerId": -16020,
+          "fromTeamId": null,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "d40ceff1-e943-41b5-bd3f-29b2d6326477",
+      "date": "2026-10-21T12:13:38.899Z",
+      "type": "FREEAGENT",
+      "teamId": 2,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "ADD",
+          "playerId": -16020,
+          "fromTeamId": null,
+          "toTeamId": 2
+        },
+        {
+          "type": "DROP",
+          "playerId": 4429023,
+          "fromTeamId": 2,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "971d6efa-f6b3-4c42-be14-2992f439d5c3",
+      "date": "2026-10-21T12:12:23.516Z",
+      "type": "ROSTER",
+      "teamId": 2,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "LINEUP",
+          "playerId": 4241985,
+          "fromTeamId": null,
+          "toTeamId": null
+        },
+        {
+          "type": "LINEUP",
+          "playerId": 4887558,
+          "fromTeamId": null,
+          "toTeamId": null
+        }
+      ]
+    },
+    {
+      "id": "a2eb7042-2271-44f3-bc99-1fea283edb14",
+      "date": "2026-10-21T07:40:27.273Z",
+      "type": "WAIVER",
+      "teamId": 2,
+      "bidAmount": 0,
+      "items": [
+        {
+          "type": "ADD",
+          "playerId": 4241985,
+          "fromTeamId": null,
+          "toTeamId": 2
+        },
+        {
+          "type": "DROP",
+          "playerId": 4371733,
+          "fromTeamId": 2,
+          "toTeamId": null
+        }
+      ]
+    },
     {
       "id": "c511e9c3-1f00-40e8-af8c-2d9770eb1a81",
       "date": "2026-10-20T11:39:34.140Z",
