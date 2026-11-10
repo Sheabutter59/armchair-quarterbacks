@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-04T19:53:26.732Z",
+  "generatedAt": "2026-11-10T19:51:28.906Z",
   "season": 2026,
   "league": {
     "id": "1670450262",
@@ -9,7 +9,7 @@
     "regularSeasonWeeks": 13,
     "playoffTeamCount": 4,
     "playoffSeedingRule": "TOTAL_POINTS_SCORED",
-    "currentWeek": 9,
+    "currentWeek": 10,
     "seasonStarted": true,
     "draft": {
       "date": "2026-09-01T01:00:00.000Z",
@@ -1005,12 +1005,12 @@
       "bio": null,
       "record": {
         "wins": 6,
-        "losses": 2,
+        "losses": 3,
         "ties": 0,
-        "pointsFor": 1080.8,
-        "pointsAgainst": 881.5,
+        "pointsFor": 1220.1,
+        "pointsAgainst": 1047.7,
         "streakType": "LOSS",
-        "streakLength": 1
+        "streakLength": 2
       },
       "rank": 2,
       "roster": [
@@ -1039,14 +1039,6 @@
           "injury": null
         },
         {
-          "name": "George Pickens",
-          "pos": "WR",
-          "proTeam": "DAL",
-          "slot": "WR",
-          "starter": true,
-          "injury": null
-        },
-        {
           "name": "Bucky Irving",
           "pos": "RB",
           "proTeam": "TB",
@@ -1055,12 +1047,20 @@
           "injury": null
         },
         {
-          "name": "Parker Washington",
+          "name": "Jaylen Waddle",
           "pos": "WR",
-          "proTeam": "JAX",
+          "proTeam": "DEN",
           "slot": "WR",
           "starter": true,
-          "injury": null
+          "injury": "QUESTIONABLE"
+        },
+        {
+          "name": "Luther Burden III",
+          "pos": "WR",
+          "proTeam": "CHI",
+          "slot": "WR",
+          "starter": true,
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Chuba Hubbard",
@@ -1071,9 +1071,9 @@
           "injury": null
         },
         {
-          "name": "Vikings D/ST",
+          "name": "Chiefs D/ST",
           "pos": "D/ST",
-          "proTeam": "MIN",
+          "proTeam": "KC",
           "slot": "D/ST",
           "starter": true,
           "injury": null
@@ -1087,6 +1087,14 @@
           "injury": null
         },
         {
+          "name": "George Pickens",
+          "pos": "WR",
+          "proTeam": "DAL",
+          "slot": "BE",
+          "starter": false,
+          "injury": "QUESTIONABLE"
+        },
+        {
           "name": "Colston Loveland",
           "pos": "TE",
           "proTeam": "CHI",
@@ -1095,17 +1103,9 @@
           "injury": null
         },
         {
-          "name": "Jaylen Waddle",
+          "name": "Parker Washington",
           "pos": "WR",
-          "proTeam": "DEN",
-          "slot": "BE",
-          "starter": false,
-          "injury": null
-        },
-        {
-          "name": "Luther Burden III",
-          "pos": "WR",
-          "proTeam": "CHI",
+          "proTeam": "JAX",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -1132,12 +1132,12 @@
           "proTeam": "JAX",
           "slot": "BE",
           "starter": false,
-          "injury": "QUESTIONABLE"
+          "injury": null
         },
         {
-          "name": "Chiefs D/ST",
+          "name": "Vikings D/ST",
           "pos": "D/ST",
-          "proTeam": "KC",
+          "proTeam": "MIN",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -1155,14 +1155,14 @@
       "bio": null,
       "record": {
         "wins": 3,
-        "losses": 5,
+        "losses": 6,
         "ties": 0,
-        "pointsFor": 884.7,
-        "pointsAgainst": 916.9,
+        "pointsFor": 994.4,
+        "pointsAgainst": 1035.9,
         "streakType": "LOSS",
-        "streakLength": 2
+        "streakLength": 3
       },
-      "rank": 7,
+      "rank": 8,
       "roster": [
         {
           "name": "Chris Olave",
@@ -1226,15 +1226,15 @@
           "proTeam": "MIA",
           "slot": "OP",
           "starter": true,
-          "injury": null
+          "injury": "QUESTIONABLE"
         },
         {
-          "name": "David Montgomery",
+          "name": "Alvin Kamara",
           "pos": "RB",
-          "proTeam": "HOU",
+          "proTeam": "NO",
           "slot": "RB",
           "starter": true,
-          "injury": "QUESTIONABLE"
+          "injury": null
         },
         {
           "name": "Lamar Jackson",
@@ -1242,7 +1242,7 @@
           "proTeam": "BAL",
           "slot": "IR",
           "starter": false,
-          "injury": "OUT"
+          "injury": "INJURY_RESERVE"
         },
         {
           "name": "Jeremiyah Love",
@@ -1269,20 +1269,12 @@
           "injury": null
         },
         {
-          "name": "Emanuel Wilson",
-          "pos": "RB",
-          "proTeam": "SEA",
-          "slot": "BE",
-          "starter": false,
-          "injury": null
-        },
-        {
           "name": "DeVonta Smith",
           "pos": "WR",
           "proTeam": "PHI",
           "slot": "BE",
           "starter": false,
-          "injury": "QUESTIONABLE"
+          "injury": "OUT"
         },
         {
           "name": "Jordan Mason",
@@ -1299,6 +1291,14 @@
           "slot": "BE",
           "starter": false,
           "injury": null
+        },
+        {
+          "name": "David Montgomery",
+          "pos": "RB",
+          "proTeam": "HOU",
+          "slot": "BE",
+          "starter": false,
+          "injury": "QUESTIONABLE"
         }
       ]
     },
@@ -1312,13 +1312,13 @@
       "ownerHandle": "ImYoshingYou",
       "bio": null,
       "record": {
-        "wins": 5,
+        "wins": 6,
         "losses": 3,
         "ties": 0,
-        "pointsFor": 1035,
-        "pointsAgainst": 1048,
+        "pointsFor": 1154.3,
+        "pointsAgainst": 1131.7,
         "streakType": "WIN",
-        "streakLength": 1
+        "streakLength": 2
       },
       "rank": 3,
       "roster": [
@@ -1331,6 +1331,14 @@
           "injury": null
         },
         {
+          "name": "Christian McCaffrey",
+          "pos": "RB",
+          "proTeam": "SF",
+          "slot": "RB",
+          "starter": true,
+          "injury": null
+        },
+        {
           "name": "Ashton Jeanty",
           "pos": "RB",
           "proTeam": "LV",
@@ -1339,12 +1347,12 @@
           "injury": null
         },
         {
-          "name": "Garrett Wilson",
-          "pos": "WR",
-          "proTeam": "NYJ",
-          "slot": "WR",
+          "name": "Trevor Lawrence",
+          "pos": "QB",
+          "proTeam": "JAX",
+          "slot": "QB",
           "starter": true,
-          "injury": "QUESTIONABLE"
+          "injury": null
         },
         {
           "name": "T.J. Hockenson",
@@ -1360,29 +1368,13 @@
           "proTeam": "ARI",
           "slot": "WR",
           "starter": true,
-          "injury": "QUESTIONABLE"
+          "injury": "OUT"
         },
         {
-          "name": "Steelers D/ST",
-          "pos": "D/ST",
-          "proTeam": "PIT",
-          "slot": "D/ST",
-          "starter": true,
-          "injury": null
-        },
-        {
-          "name": "Jonah Coleman",
-          "pos": "RB",
-          "proTeam": "DEN",
-          "slot": "RB",
-          "starter": true,
-          "injury": null
-        },
-        {
-          "name": "Bryce Young",
-          "pos": "QB",
-          "proTeam": "CAR",
-          "slot": "QB",
+          "name": "Stefon Diggs",
+          "pos": "WR",
+          "proTeam": "WSH",
+          "slot": "WR",
           "starter": true,
           "injury": null
         },
@@ -1395,12 +1387,12 @@
           "injury": null
         },
         {
-          "name": "Christian McCaffrey",
-          "pos": "RB",
-          "proTeam": "SF",
-          "slot": "BE",
-          "starter": false,
-          "injury": "QUESTIONABLE"
+          "name": "Buccaneers D/ST",
+          "pos": "D/ST",
+          "proTeam": "TB",
+          "slot": "D/ST",
+          "starter": true,
+          "injury": null
         },
         {
           "name": "A.J. Brown",
@@ -1411,12 +1403,12 @@
           "injury": "QUESTIONABLE"
         },
         {
-          "name": "Trevor Lawrence",
-          "pos": "QB",
-          "proTeam": "JAX",
+          "name": "Garrett Wilson",
+          "pos": "WR",
+          "proTeam": "NYJ",
           "slot": "BE",
           "starter": false,
-          "injury": null
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Carnell Tate",
@@ -1424,7 +1416,7 @@
           "proTeam": "TEN",
           "slot": "BE",
           "starter": false,
-          "injury": "OUT"
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Aaron Jones Sr.",
@@ -1435,9 +1427,9 @@
           "injury": null
         },
         {
-          "name": "Stefon Diggs",
-          "pos": "WR",
-          "proTeam": "WSH",
+          "name": "Jonah Coleman",
+          "pos": "RB",
+          "proTeam": "DEN",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -1446,6 +1438,14 @@
           "name": "Xavier Worthy",
           "pos": "WR",
           "proTeam": "KC",
+          "slot": "BE",
+          "starter": false,
+          "injury": "QUESTIONABLE"
+        },
+        {
+          "name": "Bryce Young",
+          "pos": "QB",
+          "proTeam": "CAR",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -1470,21 +1470,29 @@
       "ownerHandle": null,
       "bio": null,
       "record": {
-        "wins": 3,
+        "wins": 4,
         "losses": 5,
         "ties": 0,
-        "pointsFor": 880.9,
-        "pointsAgainst": 931.1,
+        "pointsFor": 1047.1,
+        "pointsAgainst": 1070.4,
         "streakType": "WIN",
-        "streakLength": 2
+        "streakLength": 3
       },
-      "rank": 8,
+      "rank": 6,
       "roster": [
         {
           "name": "Puka Nacua",
           "pos": "WR",
           "proTeam": "LAR",
           "slot": "WR",
+          "starter": true,
+          "injury": "QUESTIONABLE"
+        },
+        {
+          "name": "Justin Jefferson",
+          "pos": "WR",
+          "proTeam": "MIN",
+          "slot": "OP",
           "starter": true,
           "injury": null
         },
@@ -1495,14 +1503,6 @@
           "slot": "TE",
           "starter": true,
           "injury": null
-        },
-        {
-          "name": "Cam Skattebo",
-          "pos": "RB",
-          "proTeam": "NYG",
-          "slot": "RB",
-          "starter": true,
-          "injury": "QUESTIONABLE"
         },
         {
           "name": "Rams D/ST",
@@ -1516,9 +1516,9 @@
           "name": "Christian Watson",
           "pos": "WR",
           "proTeam": "GB",
-          "slot": "OP",
+          "slot": "WR",
           "starter": true,
-          "injury": "QUESTIONABLE"
+          "injury": null
         },
         {
           "name": "Jordan Love",
@@ -1537,10 +1537,10 @@
           "injury": null
         },
         {
-          "name": "Denzel Boston",
-          "pos": "WR",
-          "proTeam": "CLE",
-          "slot": "WR",
+          "name": "Saquon Barkley",
+          "pos": "RB",
+          "proTeam": "PHI",
+          "slot": "RB",
           "starter": true,
           "injury": null
         },
@@ -1553,20 +1553,12 @@
           "injury": null
         },
         {
-          "name": "Justin Jefferson",
-          "pos": "WR",
-          "proTeam": "MIN",
-          "slot": "BE",
-          "starter": false,
-          "injury": null
-        },
-        {
           "name": "Justin Herbert",
           "pos": "QB",
           "proTeam": "LAC",
           "slot": "BE",
           "starter": false,
-          "injury": null
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Travis Etienne Jr.",
@@ -1575,6 +1567,14 @@
           "slot": "BE",
           "starter": false,
           "injury": "INJURY_RESERVE"
+        },
+        {
+          "name": "Cam Skattebo",
+          "pos": "RB",
+          "proTeam": "NYG",
+          "slot": "BE",
+          "starter": false,
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Kenyon Sadiq",
@@ -1601,9 +1601,9 @@
           "injury": null
         },
         {
-          "name": "Saquon Barkley",
-          "pos": "RB",
-          "proTeam": "PHI",
+          "name": "Denzel Boston",
+          "pos": "WR",
+          "proTeam": "CLE",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -1621,11 +1621,11 @@
       "bio": null,
       "record": {
         "wins": 3,
-        "losses": 5,
+        "losses": 6,
         "ties": 0,
-        "pointsFor": 864.4,
-        "pointsAgainst": 937.8,
-        "streakType": "WIN",
+        "pointsFor": 948.1,
+        "pointsAgainst": 1057,
+        "streakType": "LOSS",
         "streakLength": 1
       },
       "rank": 9,
@@ -1652,7 +1652,7 @@
           "proTeam": "LAR",
           "slot": "OP",
           "starter": true,
-          "injury": "QUESTIONABLE"
+          "injury": null
         },
         {
           "name": "Javonte Williams",
@@ -1668,7 +1668,7 @@
           "proTeam": "LAC",
           "slot": "WR",
           "starter": true,
-          "injury": null
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Dallas Goedert",
@@ -1748,7 +1748,7 @@
           "proTeam": "JAX",
           "slot": "BE",
           "starter": false,
-          "injury": "QUESTIONABLE"
+          "injury": null
         },
         {
           "name": "Jake Ferguson",
@@ -1756,7 +1756,7 @@
           "proTeam": "DAL",
           "slot": "BE",
           "starter": false,
-          "injury": "QUESTIONABLE"
+          "injury": "OUT"
         },
         {
           "name": "Michael Penix Jr.",
@@ -1778,15 +1778,15 @@
       "ownerHandle": null,
       "bio": null,
       "record": {
-        "wins": 3,
+        "wins": 4,
         "losses": 5,
         "ties": 0,
-        "pointsFor": 969.8,
-        "pointsAgainst": 1033.7,
-        "streakType": "LOSS",
-        "streakLength": 3
+        "pointsFor": 1135.3,
+        "pointsAgainst": 1145,
+        "streakType": "WIN",
+        "streakLength": 1
       },
-      "rank": 6,
+      "rank": 5,
       "roster": [
         {
           "name": "Bijan Robinson",
@@ -1818,7 +1818,7 @@
           "proTeam": "KC",
           "slot": "QB",
           "starter": true,
-          "injury": null
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Tyler Warren",
@@ -1829,12 +1829,12 @@
           "injury": null
         },
         {
-          "name": "Emeka Egbuka",
+          "name": "DJ Moore",
           "pos": "WR",
-          "proTeam": "TB",
+          "proTeam": "BUF",
           "slot": "WR",
           "starter": true,
-          "injury": "QUESTIONABLE"
+          "injury": null
         },
         {
           "name": "C.J. Stroud",
@@ -1861,12 +1861,12 @@
           "injury": null
         },
         {
-          "name": "DJ Moore",
+          "name": "Emeka Egbuka",
           "pos": "WR",
-          "proTeam": "BUF",
+          "proTeam": "TB",
           "slot": "BE",
           "starter": false,
-          "injury": "QUESTIONABLE"
+          "injury": null
         },
         {
           "name": "Rhamondre Stevenson",
@@ -1874,7 +1874,7 @@
           "proTeam": "NE",
           "slot": "BE",
           "starter": false,
-          "injury": null
+          "injury": "DOUBTFUL"
         },
         {
           "name": "Emmett Johnson",
@@ -1888,25 +1888,17 @@
           "name": "Kyle Monangai",
           "pos": "RB",
           "proTeam": "CHI",
-          "slot": "IR",
-          "starter": false,
-          "injury": "QUESTIONABLE"
-        },
-        {
-          "name": "Sam Darnold",
-          "pos": "QB",
-          "proTeam": "SEA",
           "slot": "BE",
           "starter": false,
           "injury": "OUT"
         },
         {
-          "name": "Tre Tucker",
-          "pos": "WR",
-          "proTeam": "LV",
-          "slot": "BE",
+          "name": "Sam Darnold",
+          "pos": "QB",
+          "proTeam": "SEA",
+          "slot": "IR",
           "starter": false,
-          "injury": null
+          "injury": "OUT"
         },
         {
           "name": "Brenton Strange",
@@ -1917,9 +1909,17 @@
           "injury": null
         },
         {
-          "name": "Josh Downs",
+          "name": "Drew Lock",
+          "pos": "QB",
+          "proTeam": "SEA",
+          "slot": "BE",
+          "starter": false,
+          "injury": "QUESTIONABLE"
+        },
+        {
+          "name": "Ryan Flournoy",
           "pos": "WR",
-          "proTeam": "IND",
+          "proTeam": "DAL",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -1937,14 +1937,14 @@
       "bio": null,
       "record": {
         "wins": 3,
-        "losses": 5,
+        "losses": 6,
         "ties": 0,
-        "pointsFor": 1054.3,
-        "pointsAgainst": 1064.1,
+        "pointsFor": 1157.7,
+        "pointsAgainst": 1204.5,
         "streakType": "LOSS",
-        "streakLength": 1
+        "streakLength": 2
       },
-      "rank": 5,
+      "rank": 7,
       "roster": [
         {
           "name": "Jaxon Smith-Njigba",
@@ -1992,15 +1992,7 @@
           "proTeam": "GB",
           "slot": "RB",
           "starter": true,
-          "injury": null
-        },
-        {
-          "name": "Baker Mayfield",
-          "pos": "QB",
-          "proTeam": "TB",
-          "slot": "OP",
-          "starter": true,
-          "injury": null
+          "injury": "OUT"
         },
         {
           "name": "Trey Smack",
@@ -2017,6 +2009,14 @@
           "slot": "D/ST",
           "starter": true,
           "injury": null
+        },
+        {
+          "name": "J.J. McCarthy",
+          "pos": "QB",
+          "proTeam": "NYG",
+          "slot": "OP",
+          "starter": true,
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Omarion Hampton",
@@ -2043,12 +2043,20 @@
           "injury": null
         },
         {
+          "name": "Baker Mayfield",
+          "pos": "QB",
+          "proTeam": "TB",
+          "slot": "BE",
+          "starter": false,
+          "injury": null
+        },
+        {
           "name": "Hunter Henry",
           "pos": "TE",
           "proTeam": "NE",
           "slot": "BE",
           "starter": false,
-          "injury": "QUESTIONABLE"
+          "injury": null
         },
         {
           "name": "Travis Hunter",
@@ -2073,14 +2081,6 @@
           "slot": "BE",
           "starter": false,
           "injury": null
-        },
-        {
-          "name": "J.J. McCarthy",
-          "pos": "QB",
-          "proTeam": "NYG",
-          "slot": "BE",
-          "starter": false,
-          "injury": null
         }
       ]
     },
@@ -2094,12 +2094,12 @@
       "ownerHandle": null,
       "bio": null,
       "record": {
-        "wins": 7,
+        "wins": 8,
         "losses": 1,
         "ties": 0,
-        "pointsFor": 1022.1,
-        "pointsAgainst": 859.7,
-        "streakType": "LOSS",
+        "pointsFor": 1141.1,
+        "pointsAgainst": 969.4,
+        "streakType": "WIN",
         "streakLength": 1
       },
       "rank": 1,
@@ -2161,18 +2161,18 @@
           "injury": null
         },
         {
-          "name": "Tyler Loop",
-          "pos": "K",
-          "proTeam": "BAL",
-          "slot": "K",
+          "name": "Seahawks D/ST",
+          "pos": "D/ST",
+          "proTeam": "SEA",
+          "slot": "D/ST",
           "starter": true,
-          "injury": "INJURY_RESERVE"
+          "injury": null
         },
         {
-          "name": "Bengals D/ST",
-          "pos": "D/ST",
-          "proTeam": "CIN",
-          "slot": "D/ST",
+          "name": "Dominic Zvada",
+          "pos": "K",
+          "proTeam": "NYG",
+          "slot": "K",
           "starter": true,
           "injury": null
         },
@@ -2209,14 +2209,6 @@
           "injury": null
         },
         {
-          "name": "Seahawks D/ST",
-          "pos": "D/ST",
-          "proTeam": "SEA",
-          "slot": "BE",
-          "starter": false,
-          "injury": null
-        },
-        {
           "name": "Braelon Allen",
           "pos": "RB",
           "proTeam": "NYJ",
@@ -2239,6 +2231,14 @@
           "slot": "BE",
           "starter": false,
           "injury": null
+        },
+        {
+          "name": "Bengals D/ST",
+          "pos": "D/ST",
+          "proTeam": "CIN",
+          "slot": "BE",
+          "starter": false,
+          "injury": null
         }
       ]
     },
@@ -2253,11 +2253,11 @@
       "bio": null,
       "record": {
         "wins": 2,
-        "losses": 6,
+        "losses": 7,
         "ties": 0,
-        "pointsFor": 704,
-        "pointsAgainst": 1015.3,
-        "streakType": "WIN",
+        "pointsFor": 815.3,
+        "pointsAgainst": 1180.8,
+        "streakType": "LOSS",
         "streakLength": 1
       },
       "rank": 10,
@@ -2279,10 +2279,10 @@
           "injury": null
         },
         {
-          "name": "Kyle Pitts Sr.",
-          "pos": "TE",
-          "proTeam": "ATL",
-          "slot": "TE",
+          "name": "Breece Hall",
+          "pos": "RB",
+          "proTeam": "NYJ",
+          "slot": "RB",
           "starter": true,
           "injury": null
         },
@@ -2291,6 +2291,22 @@
           "pos": "WR",
           "proTeam": "CIN",
           "slot": "OP",
+          "starter": true,
+          "injury": null
+        },
+        {
+          "name": "Isaiah Likely",
+          "pos": "TE",
+          "proTeam": "NYG",
+          "slot": "TE",
+          "starter": true,
+          "injury": null
+        },
+        {
+          "name": "Texans D/ST",
+          "pos": "D/ST",
+          "proTeam": "HOU",
+          "slot": "D/ST",
           "starter": true,
           "injury": null
         },
@@ -2311,14 +2327,6 @@
           "injury": null
         },
         {
-          "name": "Commanders D/ST",
-          "pos": "D/ST",
-          "proTeam": "WSH",
-          "slot": "D/ST",
-          "starter": true,
-          "injury": null
-        },
-        {
           "name": "Rachaad White",
           "pos": "RB",
           "proTeam": "WSH",
@@ -2327,41 +2335,17 @@
           "injury": null
         },
         {
-          "name": "Rico Dowdle",
-          "pos": "RB",
-          "proTeam": "PIT",
-          "slot": "RB",
-          "starter": true,
-          "injury": null
-        },
-        {
-          "name": "Breece Hall",
-          "pos": "RB",
-          "proTeam": "NYJ",
+          "name": "Kyle Pitts Sr.",
+          "pos": "TE",
+          "proTeam": "ATL",
           "slot": "BE",
           "starter": false,
-          "injury": "QUESTIONABLE"
+          "injury": null
         },
         {
           "name": "Tyler Shough",
           "pos": "QB",
           "proTeam": "NO",
-          "slot": "BE",
-          "starter": false,
-          "injury": null
-        },
-        {
-          "name": "Isaiah Likely",
-          "pos": "TE",
-          "proTeam": "NYG",
-          "slot": "BE",
-          "starter": false,
-          "injury": null
-        },
-        {
-          "name": "Texans D/ST",
-          "pos": "D/ST",
-          "proTeam": "HOU",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -2380,12 +2364,28 @@
           "proTeam": "TEN",
           "slot": "BE",
           "starter": false,
-          "injury": "OUT"
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "Mark Andrews",
           "pos": "TE",
           "proTeam": "BAL",
+          "slot": "BE",
+          "starter": false,
+          "injury": null
+        },
+        {
+          "name": "Commanders D/ST",
+          "pos": "D/ST",
+          "proTeam": "WSH",
+          "slot": "BE",
+          "starter": false,
+          "injury": null
+        },
+        {
+          "name": "Rico Dowdle",
+          "pos": "RB",
+          "proTeam": "PIT",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -2402,13 +2402,13 @@
       "ownerHandle": null,
       "bio": null,
       "record": {
-        "wins": 5,
+        "wins": 6,
         "losses": 3,
         "ties": 0,
-        "pointsFor": 1010.8,
-        "pointsAgainst": 818.8,
+        "pointsFor": 1151.2,
+        "pointsAgainst": 922.2,
         "streakType": "WIN",
-        "streakLength": 5
+        "streakLength": 6
       },
       "rank": 4,
       "roster": [
@@ -2424,7 +2424,7 @@
           "name": "Drake Maye",
           "pos": "QB",
           "proTeam": "NE",
-          "slot": "OP",
+          "slot": "QB",
           "starter": true,
           "injury": null
         },
@@ -2443,14 +2443,6 @@
           "slot": "RB",
           "starter": true,
           "injury": null
-        },
-        {
-          "name": "Kyler Murray",
-          "pos": "QB",
-          "proTeam": "MIN",
-          "slot": "QB",
-          "starter": true,
-          "injury": "QUESTIONABLE"
         },
         {
           "name": "Sam LaPorta",
@@ -2477,6 +2469,14 @@
           "injury": null
         },
         {
+          "name": "Ollie Gordon II",
+          "pos": "RB",
+          "proTeam": "MIA",
+          "slot": "OP",
+          "starter": true,
+          "injury": null
+        },
+        {
           "name": "Jaguars D/ST",
           "pos": "D/ST",
           "proTeam": "JAX",
@@ -2491,6 +2491,14 @@
           "slot": "BE",
           "starter": false,
           "injury": null
+        },
+        {
+          "name": "Kyler Murray",
+          "pos": "QB",
+          "proTeam": "MIN",
+          "slot": "BE",
+          "starter": false,
+          "injury": "QUESTIONABLE"
         },
         {
           "name": "DK Metcalf",
@@ -2520,14 +2528,6 @@
           "name": "49ers D/ST",
           "pos": "D/ST",
           "proTeam": "SF",
-          "slot": "BE",
-          "starter": false,
-          "injury": null
-        },
-        {
-          "name": "Ollie Gordon II",
-          "pos": "RB",
-          "proTeam": "MIA",
           "slot": "BE",
           "starter": false,
           "injury": null
@@ -3082,67 +3082,67 @@
     },
     {
       "week": 9,
-      "status": "upcoming",
+      "status": "final",
       "isPlayoffs": false,
       "games": [
         {
           "home": {
             "teamId": 6,
-            "score": 0
+            "score": 165.44
           },
           "away": {
             "teamId": 9,
-            "score": 0
+            "score": 111.26
           },
-          "winner": null,
+          "winner": "home",
           "playoff": null
         },
         {
           "home": {
             "teamId": 8,
-            "score": 0
+            "score": 119.02
           },
           "away": {
             "teamId": 2,
-            "score": 0
+            "score": 109.7
           },
-          "winner": null,
+          "winner": "home",
           "playoff": null
         },
         {
           "home": {
             "teamId": 10,
-            "score": 0
+            "score": 140.36
           },
           "away": {
             "teamId": 7,
-            "score": 0
+            "score": 103.46
           },
-          "winner": null,
+          "winner": "home",
           "playoff": null
         },
         {
           "home": {
             "teamId": 5,
-            "score": 0
+            "score": 83.7
           },
           "away": {
             "teamId": 3,
-            "score": 0
+            "score": 119.22
           },
-          "winner": null,
+          "winner": "away",
           "playoff": null
         },
         {
           "home": {
             "teamId": 4,
-            "score": 0
+            "score": 166.18
           },
           "away": {
             "teamId": 1,
-            "score": 0
+            "score": 139.3
           },
-          "winner": null,
+          "winner": "home",
           "playoff": null
         }
       ]
@@ -3505,6 +3505,17 @@
           "teamId": 2,
           "score": 49.18
         }
+      },
+      {
+        "week": 9,
+        "high": {
+          "teamId": 4,
+          "score": 166.18
+        },
+        "low": {
+          "teamId": 5,
+          "score": 83.7
+        }
       }
     ]
   },
@@ -3512,361 +3523,63 @@
     {
       "rank": 1,
       "teamId": 8,
-      "value": 88.3,
+      "value": 88.1,
       "note": null
     },
     {
       "rank": 2,
       "teamId": 10,
-      "value": 85.2,
+      "value": 86.9,
       "note": null
     },
     {
       "rank": 3,
-      "teamId": 1,
-      "value": 82.5,
+      "teamId": 3,
+      "value": 82,
       "note": null
     },
     {
       "rank": 4,
-      "teamId": 3,
-      "value": 81.4,
+      "teamId": 1,
+      "value": 80,
       "note": null
     },
     {
       "rank": 5,
-      "teamId": 7,
-      "value": 69.9,
+      "teamId": 4,
+      "value": 75.5,
       "note": null
     },
     {
       "rank": 6,
-      "teamId": 4,
-      "value": 66.1,
+      "teamId": 6,
+      "value": 69.5,
       "note": null
     },
     {
       "rank": 7,
-      "teamId": 2,
-      "value": 61.3,
+      "teamId": 7,
+      "value": 67.2,
       "note": null
     },
     {
       "rank": 8,
-      "teamId": 6,
-      "value": 60.6,
+      "teamId": 5,
+      "value": 57.7,
       "note": null
     },
     {
       "rank": 9,
-      "teamId": 5,
-      "value": 60.2,
+      "teamId": 2,
+      "value": 54.8,
       "note": null
     },
     {
       "rank": 10,
       "teamId": 9,
-      "value": 53.3,
+      "value": 48.4,
       "note": null
     }
   ],
-  "transactions": [
-    {
-      "id": "a0912bac-f641-4a43-ab4d-986f89112939",
-      "date": "2026-11-04T13:02:52.558Z",
-      "type": "ROSTER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 4035538,
-          "fromTeamId": null,
-          "toTeamId": null
-        },
-        {
-          "type": "LINEUP",
-          "playerId": 4360569,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "05b699bb-aa8a-4c19-9b57-95ee43e0fa2c",
-      "date": "2026-11-04T13:02:47.587Z",
-      "type": "FREEAGENT",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "ADD",
-          "playerId": 4035538,
-          "fromTeamId": null,
-          "toTeamId": 2
-        },
-        {
-          "type": "DROP",
-          "playerId": 17372,
-          "fromTeamId": 2,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "e907a8ca-2b82-432b-8ce1-0b19bcf72790",
-      "date": "2026-11-04T12:57:55.473Z",
-      "type": "ROSTER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 4360569,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "0d8b90f2-b496-4fda-b8cc-c8e1ea403dd7",
-      "date": "2026-11-04T12:57:14.909Z",
-      "type": "ROSTER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 4870808,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "47afdb79-f35a-4d04-bc86-8121932a3e40",
-      "date": "2026-11-04T08:49:28.979Z",
-      "type": "WAIVER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "ADD",
-          "playerId": 4242512,
-          "fromTeamId": null,
-          "toTeamId": 2
-        },
-        {
-          "type": "DROP",
-          "playerId": 8439,
-          "fromTeamId": 2,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "44f9fb11-72bc-4316-b6d6-60f54f085304",
-      "date": "2026-11-04T08:49:28.979Z",
-      "type": "WAIVER",
-      "teamId": 6,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "ADD",
-          "playerId": -16019,
-          "fromTeamId": null,
-          "toTeamId": 6
-        },
-        {
-          "type": "DROP",
-          "playerId": -16017,
-          "fromTeamId": 6,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "12d6d784-15e6-463d-97c7-be1c78dae09a",
-      "date": "2026-11-04T08:49:28.979Z",
-      "type": "WAIVER",
-      "teamId": 6,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "ADD",
-          "playerId": 4688813,
-          "fromTeamId": null,
-          "toTeamId": 6
-        },
-        {
-          "type": "DROP",
-          "playerId": 4685261,
-          "fromTeamId": 6,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "6fc026c0-621d-486f-84f7-24611fc9ff43",
-      "date": "2026-11-03T17:22:39.862Z",
-      "type": "ROSTER",
-      "teamId": 1,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 4596448,
-          "fromTeamId": null,
-          "toTeamId": null
-        },
-        {
-          "type": "LINEUP",
-          "playerId": 4569987,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "af8188fb-316f-4fb7-b740-71fe0bd07b82",
-      "date": "2026-11-03T13:02:57.330Z",
-      "type": "ROSTER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 17372,
-          "fromTeamId": null,
-          "toTeamId": null
-        },
-        {
-          "type": "LINEUP",
-          "playerId": 2971573,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "399b1d98-8d33-493b-9a8e-a1d588f6d6aa",
-      "date": "2026-11-03T13:02:41.101Z",
-      "type": "ROSTER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 4360569,
-          "fromTeamId": null,
-          "toTeamId": null
-        },
-        {
-          "type": "LINEUP",
-          "playerId": 4685512,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "580cb712-080f-4f38-9e3d-fe60a9273d84",
-      "date": "2026-11-03T13:02:33.046Z",
-      "type": "ROSTER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 4431299,
-          "fromTeamId": null,
-          "toTeamId": null
-        },
-        {
-          "type": "LINEUP",
-          "playerId": 4361370,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "606b726f-03ab-4b5e-9a26-d98821571761",
-      "date": "2026-11-03T13:02:25.956Z",
-      "type": "ROSTER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 4723820,
-          "fromTeamId": null,
-          "toTeamId": null
-        },
-        {
-          "type": "LINEUP",
-          "playerId": 4595348,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "5810047f-1177-498d-bf65-778afb3737b2",
-      "date": "2026-11-03T13:02:19.859Z",
-      "type": "ROSTER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 4572680,
-          "fromTeamId": null,
-          "toTeamId": null
-        },
-        {
-          "type": "LINEUP",
-          "playerId": 3040151,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "f853a772-af42-4053-a227-cd161e9ccca5",
-      "date": "2026-11-03T13:01:59.731Z",
-      "type": "ROSTER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 4361741,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    },
-    {
-      "id": "590316f4-0a82-4774-ab21-05df3e1665d4",
-      "date": "2026-11-03T13:01:45.575Z",
-      "type": "ROSTER",
-      "teamId": 2,
-      "bidAmount": 0,
-      "items": [
-        {
-          "type": "LINEUP",
-          "playerId": 4685512,
-          "fromTeamId": null,
-          "toTeamId": null
-        },
-        {
-          "type": "LINEUP",
-          "playerId": 3916387,
-          "fromTeamId": null,
-          "toTeamId": null
-        }
-      ]
-    }
-  ]
+  "transactions": []
 }
